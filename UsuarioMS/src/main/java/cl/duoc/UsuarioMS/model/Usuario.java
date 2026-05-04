@@ -39,6 +39,9 @@ public class Usuario {
     private String telefono;
 
     @Column(nullable = false)
+    private String estado;
+
+    @Column(nullable = false)
     private Date fecha_creación;
 
 

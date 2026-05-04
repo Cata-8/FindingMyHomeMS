@@ -22,7 +22,7 @@ public class Refugio {
     private Integer id_usuario;
 
     @Column(nullable = false)
-    private String nombre_refugio;
+    private String nombre_Refugio;
 
     @Column(nullable = false)
     private String dirección;
