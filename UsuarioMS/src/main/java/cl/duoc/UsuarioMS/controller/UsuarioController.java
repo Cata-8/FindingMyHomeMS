@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import cl.duoc.UsuarioMS.dto.AdoptanteDTO;
+import cl.duoc.UsuarioMS.dto.RefugioDTO;
 import cl.duoc.UsuarioMS.model.Adoptante;
 import cl.duoc.UsuarioMS.model.Refugio;
 import cl.duoc.UsuarioMS.model.Usuario;
@@ -25,9 +27,9 @@ public class UsuarioController {
     private UsuarioService Uservice;
 
     @PostMapping("/adoptante")
-    public ResponseEntity<?> crearAdoptante(@RequestBody Usuario usuario) {
+    public ResponseEntity<?> crearAdoptante(@RequestBody AdoptanteDTO dto){
         try{
-            Adoptante adoptante = Uservice.guardarAdoptante(usuario);
+            Adoptante adoptante = Uservice.guardarAdoptanteDTO(dto);
             return ResponseEntity.ok(adoptante);
         }catch (Exception e){
             return ResponseEntity.badRequest().body("Error al registrar adoptante");
@@ -35,15 +37,15 @@ public class UsuarioController {
     }
 
     @PostMapping("/refugio")
-    public ResponseEntity<?> crearRefugio(@RequestBody Refugio refugio) {
+    public ResponseEntity<?> crearRefugio(@RequestBody RefugioDTO dto){
         try{
-            Usuario usuario = refugio.getUsuario();
-            Refugio nuevo = Uservice.guardarRefugio(usuario, refugio);
-            return ResponseEntity.ok(nuevo);
+            Refugio refugio = Uservice.guardarRefugioDTO(dto);
+            return ResponseEntity.ok(refugio);
         }catch (Exception e){
             return ResponseEntity.badRequest().body("Error al registrar refugio");
         }
     }
+
 
     @GetMapping
     public ResponseEntity<?> listarUsuarios() {

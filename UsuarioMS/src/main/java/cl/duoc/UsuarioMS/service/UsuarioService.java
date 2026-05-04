@@ -59,7 +59,7 @@ public class UsuarioService {
         usuarioRepo.deleteById(id);
     }
 
-    
+
     public Adoptante guardarAdoptanteDTO(AdoptanteDTO dto){
 
         Usuario usuario = new Usuario();
@@ -68,8 +68,6 @@ public class UsuarioService {
         usuario.setEmail(dto.getEmail());
         usuario.setTelefono(dto.getTelefono());
 
-        usuario.setEstado("activo");
-    
         Usuario usuarioGuardado = usuarioRepo.save(usuario);
 
         Adoptante adoptante = new Adoptante();
@@ -86,8 +84,6 @@ public class UsuarioService {
         usuario.setApellido(dto.getApellido());
         usuario.setEmail(dto.getEmail());
         usuario.setTelefono(dto.getTelefono());
-
-        usuario.setEstado("activo");
 
         Usuario usuarioGuardado = usuarioRepo.save(usuario);
 
