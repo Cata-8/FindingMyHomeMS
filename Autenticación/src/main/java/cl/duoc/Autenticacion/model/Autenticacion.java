@@ -24,7 +24,7 @@ public class Autenticacion {
     private String idAuth;
 
     @Column(nullable = false, unique = true)
-    private String idUsuario;
+    private Integer idUsuario;
 
     @Column(nullable = false)
     private String passwordHash;
