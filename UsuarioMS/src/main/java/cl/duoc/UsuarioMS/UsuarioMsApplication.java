@@ -11,7 +11,7 @@ public class UsuarioMsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(UsuarioMsApplication.class, args);
 
-		System.out.println("www");
+		System.out.println("wwwww");
 	}
 
 }
