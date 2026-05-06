@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cl.duoc.UsuarioMS.client.AutenticacionClient;
 import cl.duoc.UsuarioMS.dto.AdoptanteDTO;
+import cl.duoc.UsuarioMS.dto.AutenticacionDTO;
 import cl.duoc.UsuarioMS.dto.RefugioDTO;
 import cl.duoc.UsuarioMS.model.Adoptante;
 import cl.duoc.UsuarioMS.model.Refugio;
@@ -26,41 +28,30 @@ public class UsuarioService {
     @Autowired
     private RefugioRepository refugioRepo;
 
-    public Usuario guardarUsuario(Usuario usuario) {
-        return usuarioRepo.save(usuario);
-    }
+    @Autowired
+    private AutenticacionClient authClient;
 
-    public Adoptante guardarAdoptante(Usuario usuario) {
-        Usuario usuarioGuardado = usuarioRepo.save(usuario);
 
-        Adoptante adoptante = new Adoptante();
-        adoptante.setUsuario(usuarioGuardado);
-
-        return adoptanteRepo.save(adoptante);
-    }
-
-    public Refugio guardarRefugio(Usuario usuario, Refugio refugio) {
-        Usuario usuarioGuardado = usuarioRepo.save(usuario);
-
-        refugio.setUsuario(usuarioGuardado);
-
-        return refugioRepo.save(refugio);
-    }
-
-    public List<Usuario> listarUsuarios() {
+    public List<Usuario> listarUsuarios(){
         return usuarioRepo.findAll();
     }
 
-    public Usuario buscarUsuario(Integer id) {
-        return usuarioRepo.findById(id).orElse(null);
+    public Usuario buscarUsuario(Integer id){
+    if(id == null){
+        throw new RuntimeException("El id no puede ser null");
     }
+    return usuarioRepo.findById(id).orElse(null);
+}
 
-    public void eliminarUsuario(Integer id) {
-        usuarioRepo.deleteById(id);
+    public void eliminarUsuario(Integer id){
+    if(id == null){
+        throw new RuntimeException("El id no puede ser null");
     }
+    usuarioRepo.deleteById(id);
+}
 
 
-    public Adoptante guardarAdoptanteDTO(AdoptanteDTO dto){
+        public Adoptante guardarAdoptante(AdoptanteDTO dto){
 
         Usuario usuario = new Usuario();
         usuario.setNombre(dto.getNombre());
@@ -69,6 +60,13 @@ public class UsuarioService {
         usuario.setTelefono(dto.getTelefono());
 
         Usuario usuarioGuardado = usuarioRepo.save(usuario);
+
+        AutenticacionDTO authDTO = new AutenticacionDTO(
+                usuarioGuardado.getIdUsuario(),
+                dto.getPassword()
+        );
+
+        authClient.registrar(authDTO);
 
         Adoptante adoptante = new Adoptante();
         adoptante.setUsuario(usuarioGuardado);
@@ -76,8 +74,8 @@ public class UsuarioService {
         return adoptanteRepo.save(adoptante);
     }
 
-
-    public Refugio guardarRefugioDTO(RefugioDTO dto){
+    
+    public Refugio guardarRefugio(RefugioDTO dto){
 
         Usuario usuario = new Usuario();
         usuario.setNombre(dto.getNombre());
@@ -87,12 +85,19 @@ public class UsuarioService {
 
         Usuario usuarioGuardado = usuarioRepo.save(usuario);
 
+        AutenticacionDTO authDTO = new AutenticacionDTO(
+                usuarioGuardado.getIdUsuario(),
+                dto.getPassword()
+        );
+
+        authClient.registrar(authDTO);
+
         Refugio refugio = new Refugio();
         refugio.setUsuario(usuarioGuardado);
-        refugio.setNombre_Refugio(dto.getNombreRefugio());
-        refugio.setDirección(dto.getDireccion());
-        refugio.setDescripción(dto.getDescripcion());
-        refugio.setTelefono_Contacto(dto.getTelefonoContacto());
+        refugio.setNombreRefugio(dto.getNombreRefugio());
+        refugio.setDireccion(dto.getDireccion());
+        refugio.setDescripcion(dto.getDescripcion());
+        refugio.setTelefonoContacto(dto.getTelefonoContacto());
 
         return refugioRepo.save(refugio);
     }

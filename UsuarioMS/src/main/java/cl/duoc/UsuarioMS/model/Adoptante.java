@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class Adoptante {
 
     @Id
-    private Integer id_usuario;
+    private Integer idUsuario;
 
     @OneToOne
     @MapsId

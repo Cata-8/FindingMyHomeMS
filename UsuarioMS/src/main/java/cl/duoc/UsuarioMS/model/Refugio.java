@@ -19,19 +19,19 @@ import lombok.NoArgsConstructor;
 public class Refugio {
 
     @Id
-    private Integer id_usuario;
+    private Integer idUsuario;
 
     @Column(nullable = false)
-    private String nombre_Refugio;
+    private String nombreRefugio;
 
     @Column(nullable = false)
-    private String dirección;
+    private String direccion;
 
     @Column(nullable = false)
-    private String descripción;
+    private String descripcion;
 
     @Column(nullable = false)
-    private String telefono_Contacto;
+    private String telefonoContacto;
 
     @OneToOne
     @MapsId

@@ -14,13 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cl.duoc.UsuarioMS.dto.AdoptanteDTO;
 import cl.duoc.UsuarioMS.dto.RefugioDTO;
-import cl.duoc.UsuarioMS.model.Adoptante;
-import cl.duoc.UsuarioMS.model.Refugio;
 import cl.duoc.UsuarioMS.model.Usuario;
 import cl.duoc.UsuarioMS.service.UsuarioService;
 
 @RestController
-@RequestMapping("/api/v1/usuarios")
+@RequestMapping("/api/usuarios")
 public class UsuarioController {
 
     @Autowired
@@ -29,20 +27,18 @@ public class UsuarioController {
     @PostMapping("/adoptante")
     public ResponseEntity<?> crearAdoptante(@RequestBody AdoptanteDTO dto){
         try{
-            Adoptante adoptante = Uservice.guardarAdoptanteDTO(dto);
-            return ResponseEntity.ok(adoptante);
+            return ResponseEntity.ok(Uservice.guardarAdoptante(dto));
         }catch (Exception e){
-            return ResponseEntity.badRequest().body("Error al registrar adoptante");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping("/refugio")
     public ResponseEntity<?> crearRefugio(@RequestBody RefugioDTO dto){
         try{
-            Refugio refugio = Uservice.guardarRefugioDTO(dto);
-            return ResponseEntity.ok(refugio);
+            return ResponseEntity.ok(Uservice.guardarRefugio(dto));
         }catch (Exception e){
-            return ResponseEntity.badRequest().body("Error al registrar refugio");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -53,7 +49,7 @@ public class UsuarioController {
             List<Usuario> lista = Uservice.listarUsuarios();
             return ResponseEntity.ok(lista);
         }catch (Exception e){
-            return ResponseEntity.badRequest().body("Error al obtener usuarios");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -66,7 +62,7 @@ public class UsuarioController {
             }
             return ResponseEntity.ok(usuario);
         }catch (Exception e){
-            return ResponseEntity.badRequest().body("Error al buscar usuario");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -76,7 +72,7 @@ public class UsuarioController {
             Uservice.eliminarUsuario(id);
             return ResponseEntity.ok("Usuario eliminado");
         }catch (Exception e){
-            return ResponseEntity.badRequest().body("Error al eliminar usuario");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
