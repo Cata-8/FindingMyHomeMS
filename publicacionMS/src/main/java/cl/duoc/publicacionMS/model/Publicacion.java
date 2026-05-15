@@ -36,6 +36,6 @@ public class Publicacion {
     @Column(nullable = false)
     private String estado;
 
-    @Column(name = "mascota_id",nullable = false)
+    @Column(name = "id_mascota",nullable = false)
     private Integer idMascota;
 }
