@@ -1,4 +1,4 @@
-package cl.duoc.publicacionMS.model;
+package cl.duoc.donacionMS.model;
 
 import java.util.Date;
 
@@ -8,7 +8,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,25 +16,27 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "publicacion")
-public class Publicacion {
+@Table(name = "donacion")
+public class Donacion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false)
-    private String titulo;
+    private Integer monto;
 
     @Column(nullable = false)
-    private String descripcion;
+    private Date fecha;
 
     @Column(nullable = false)
-    private Date fechaPublicacion;
+    private String metodoDePago;
 
-    @Column(nullable = false)
-    private String estado;
+    @Column(name = "refugio_id", nullable = false)
+    private Integer idUsuarioRefugio;
 
-    @Column(name = "id_mascota",nullable = false)
-    private Integer idMascota;
+    @Column(name = "adoptante_id", nullable = false)
+    private Integer idUsuarioAdoptante;
+
+    
 }
