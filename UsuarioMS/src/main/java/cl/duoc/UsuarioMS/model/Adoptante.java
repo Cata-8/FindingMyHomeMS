@@ -1,5 +1,7 @@
 package cl.duoc.UsuarioMS.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -23,6 +25,7 @@ public class Adoptante {
     @OneToOne
     @MapsId
     @JoinColumn(name = "id_usuario")
+    @JsonBackReference
     private Usuario usuario;
 
 }

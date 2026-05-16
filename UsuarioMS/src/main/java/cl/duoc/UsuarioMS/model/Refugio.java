@@ -1,5 +1,7 @@
 package cl.duoc.UsuarioMS.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -36,5 +38,6 @@ public class Refugio {
     @OneToOne
     @MapsId
     @JoinColumn(name = "id_usuario")
+    @JsonBackReference
     private Usuario usuario;
 }
