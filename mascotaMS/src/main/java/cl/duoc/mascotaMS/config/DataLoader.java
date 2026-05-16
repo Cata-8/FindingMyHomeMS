@@ -13,7 +13,8 @@ import cl.duoc.mascotaMS.repository.MascotaRepository;
 public class DataLoader {
     @Bean
     CommandLineRunner initDataBase(MascotaRepository mascotaRepo){
-        if (mascotaRepo.count() > 0) {
+        return args -> {
+            if (mascotaRepo.count() > 0) {
                 System.out.println("No se cargó nada porque ya habían datos");
             } else {
                 Mascota masc1 = new Mascota(null,"Luna","Perro",3,"Perrita juguetona y amigable","Disponible","Santiago",new Date());
@@ -31,5 +32,7 @@ public class DataLoader {
 
                 System.out.println("Base de datos cargada");
             }
-    };
+
+        };
+    }
 }
