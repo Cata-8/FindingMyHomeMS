@@ -43,7 +43,7 @@ public class MascotaController {
         }
     }
 
-    @GetMapping("/{estado}")
+    @GetMapping("/estado/{estado}")
     public ResponseEntity<Mascota> buscarPorEstado(@PathVariable String estado){
         try {
             return ResponseEntity.ok(service.buscarPorEstado(estado));

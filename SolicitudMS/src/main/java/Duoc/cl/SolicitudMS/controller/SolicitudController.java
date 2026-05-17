@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import Duoc.cl.SolicitudMS.dto.SolicitudDTO;
+import Duoc.cl.SolicitudMS.model.Solicitud;
 import Duoc.cl.SolicitudMS.service.SolicitudService;
 
 @RestController
@@ -23,13 +24,15 @@ public class SolicitudController {
     private SolicitudService soliService;
 
     @PostMapping
-    public ResponseEntity<?> crearSolicitud(@RequestBody SolicitudDTO dto) {
-        try {
-            return ResponseEntity.ok("Solicitud creada correctamente");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error al crear solicitud: " + e.getMessage());
+    public ResponseEntity<?> crearSolicitud(@RequestBody SolicitudDTO dto){
+        try{
+            Solicitud nueva = soliService.crearSolicitud(dto);
+            return ResponseEntity.ok(nueva);
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
 
     @GetMapping
     public ResponseEntity<?> listar() {

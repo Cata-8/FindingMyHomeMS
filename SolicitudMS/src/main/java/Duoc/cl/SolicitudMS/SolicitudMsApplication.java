@@ -11,7 +11,10 @@ public class SolicitudMsApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SolicitudMsApplication.class, args);
+
+		System.out.println("www");
+
+
 	} 
 
-	
 }

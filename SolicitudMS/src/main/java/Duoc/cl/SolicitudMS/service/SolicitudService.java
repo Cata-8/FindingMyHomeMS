@@ -1,6 +1,5 @@
 package Duoc.cl.SolicitudMS.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,27 +28,27 @@ public class SolicitudService {
     public Solicitud crearSolicitud(SolicitudDTO dto){
 
     try{
-    usuarioClient.buscarUsuario(dto.getIdUsuarioAdoptante());
+        usuarioClient.buscarUsuario(dto.getIdUsuarioAdoptante());
     }catch (Exception e){
-    throw new RuntimeException("Usuario no existe");
+        throw new RuntimeException("Usuario no existe");
     }
 
-    MascotaDTO mascota = mascotaClient.buscarMascota(dto.getIdMascota());
-
-    if(mascota == null){
-    throw new RuntimeException("Mascota no existe");
+    MascotaDTO mascota;
+    try {
+        mascota = mascotaClient.buscarMascota(dto.getIdMascota());
+    } catch (Exception e) {
+        throw new RuntimeException("Mascota no existe");
     }
 
     if(!mascota.getEstado().equalsIgnoreCase("disponible")){
-            throw new RuntimeException("Mascota no disponible");
-        }
+        throw new RuntimeException("Mascota no disponible");
+    }
 
     Solicitud sol = new Solicitud();
     sol.setMensaje(dto.getMensaje());
     sol.setIdMascota(dto.getIdMascota());
     sol.setIdUsuarioAdoptante(dto.getIdUsuarioAdoptante());
     sol.setEstado("pendiente");
-    sol.setFechaSolicitud(LocalDateTime.now());
 
     return solicitudRepo.save(sol);
     }
