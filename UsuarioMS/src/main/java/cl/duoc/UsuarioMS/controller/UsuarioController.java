@@ -18,7 +18,7 @@ import cl.duoc.UsuarioMS.model.Usuario;
 import cl.duoc.UsuarioMS.service.UsuarioService;
 
 @RestController
-@RequestMapping("/api/usuarios")
+@RequestMapping("/api/v1/usuarios")
 public class UsuarioController {
 
     @Autowired

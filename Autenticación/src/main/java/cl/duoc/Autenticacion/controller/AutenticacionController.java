@@ -11,7 +11,7 @@ import cl.duoc.Autenticacion.dto.AutenticacionDTO;
 import cl.duoc.Autenticacion.service.AutenticacionService;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/auth")
 public class AutenticacionController {
 
     @Autowired

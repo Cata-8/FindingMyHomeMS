@@ -25,7 +25,7 @@ public class SolicitudService {
     private MascotaClient mascotaClient;
 
     
-    public Solicitud crear(SolicitudDTO dto){
+    public Solicitud crearSolicitud(SolicitudDTO dto){
 
     if(usuarioClient.buscarUsuario(dto.getIdUsuarioAdoptante()) == null){
         throw new RuntimeException("Usuario no existe");
@@ -48,4 +48,20 @@ public class SolicitudService {
     public List<Solicitud> listar(){
         return solicitudRepo.findAll();
     }
+
+    public Solicitud buscarPorId(Integer id) {
+        return solicitudRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Solicitud no encontrada"));
+    }
+
+    public Solicitud cambiarEstado(Integer id, String estado) {
+        Solicitud s = buscarPorId(id);
+        s.setEstado(estado);
+        return solicitudRepo.save(s);
+    }
+
+    public void eliminar(Integer id) {
+        solicitudRepo.deleteById(id);
+    }
+
 }
