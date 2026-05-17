@@ -16,5 +16,4 @@ public class PublicacionDTO {
     private Date fechaPublicacion;
 
     private MascotaDTO mascota;
-
 }
