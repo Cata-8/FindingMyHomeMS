@@ -10,5 +10,4 @@ import lombok.NoArgsConstructor;
 public class AutenticacionDTO {
 
     private Integer idUsuario;
-    private String password;
 }

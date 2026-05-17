@@ -26,9 +26,6 @@ public class Autenticacion {
     @Column(nullable = false, unique = true)
     private Integer idUsuario;
 
-    @Column(nullable = false)
-    private String passwordHash;
-
     private LocalDateTime ultimoLogin;
 
     @Column(nullable = false)

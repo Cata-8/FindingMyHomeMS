@@ -20,9 +20,6 @@ public class AutenticacionService {
 
         Autenticacion auth = new Autenticacion();
         auth.setIdUsuario(dto.getIdUsuario());
-
-        auth.setPasswordHash(dto.getPassword()); 
-
         auth.setEstado("activo");
 
         return authRepo.save(auth);
@@ -38,9 +35,6 @@ public class AutenticacionService {
         }
         if(!auth.getEstado().equals("activo")){
             return "Usuario bloqueado";
-        }
-        if(!auth.getPasswordHash().equals(dto.getPassword())){
-            return "Contraseña incorrecta";
         }
         auth.setUltimoLogin(LocalDateTime.now());
         authRepo.save(auth);
