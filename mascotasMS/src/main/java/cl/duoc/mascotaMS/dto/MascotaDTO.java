@@ -11,4 +11,5 @@ public class MascotaDTO {
     private Integer id;
     private String nombre;
     private String tipo;
+    private String estado;
 }

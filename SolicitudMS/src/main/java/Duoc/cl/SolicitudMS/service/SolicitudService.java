@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import Duoc.cl.SolicitudMS.client.MascotaClient;
 import Duoc.cl.SolicitudMS.client.UsuarioClient;
+import Duoc.cl.SolicitudMS.dto.MascotaDTO;
 import Duoc.cl.SolicitudMS.dto.SolicitudDTO;
 import Duoc.cl.SolicitudMS.model.Solicitud;
 import Duoc.cl.SolicitudMS.repository.SolicitudRepository;
@@ -27,13 +28,21 @@ public class SolicitudService {
     
     public Solicitud crearSolicitud(SolicitudDTO dto){
 
-    if(usuarioClient.buscarUsuario(dto.getIdUsuarioAdoptante()) == null){
-        throw new RuntimeException("Usuario no existe");
+    try{
+    usuarioClient.buscarUsuario(dto.getIdUsuarioAdoptante());
+    }catch (Exception e){
+    throw new RuntimeException("Usuario no existe");
     }
 
-    if(mascotaClient.buscarMascota(dto.getIdMascota()) == null){
-        throw new RuntimeException("Mascota no existe");
+    MascotaDTO mascota = mascotaClient.buscarMascota(dto.getIdMascota());
+
+    if(mascota == null){
+    throw new RuntimeException("Mascota no existe");
     }
+
+    if(!mascota.getEstado().equalsIgnoreCase("disponible")){
+            throw new RuntimeException("Mascota no disponible");
+        }
 
     Solicitud sol = new Solicitud();
     sol.setMensaje(dto.getMensaje());
@@ -55,13 +64,26 @@ public class SolicitudService {
     }
 
     public Solicitud cambiarEstado(Integer id, String estado) {
-        Solicitud s = buscarPorId(id);
-        s.setEstado(estado);
+
+        Solicitud s = solicitudRepo.findById(id)
+            .orElseThrow(() -> new RuntimeException("Solicitud no encontrada"));
+
+        if(!estado.equalsIgnoreCase("pendiente") &&
+        !estado.equalsIgnoreCase("aprobada") &&
+        !estado.equalsIgnoreCase("rechazada")) {
+        throw new RuntimeException("Estado inválido");
+        }
+
+        s.setEstado(estado.toLowerCase());
         return solicitudRepo.save(s);
-    }
+        }
 
     public void eliminar(Integer id) {
-        solicitudRepo.deleteById(id);
-    }
+
+    Solicitud solicitud = solicitudRepo.findById(id)
+            .orElseThrow(() -> new RuntimeException("Solicitud no encontrada"));
+
+        solicitudRepo.delete(solicitud);
+}
 
 }

@@ -25,7 +25,7 @@ public class SolicitudController {
     @PostMapping
     public ResponseEntity<?> crearSolicitud(@RequestBody SolicitudDTO dto) {
         try {
-            return ResponseEntity.ok(soliService.crearSolicitud(dto));
+            return ResponseEntity.ok("Solicitud creada correctamente");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error al crear solicitud: " + e.getMessage());
         }
@@ -37,21 +37,31 @@ public class SolicitudController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscarPorId(@PathVariable Integer id) {
+    public ResponseEntity<?> buscarPorId(@PathVariable Integer id){
+    try{
         return ResponseEntity.ok(soliService.buscarPorId(id));
+    }catch (Exception e){
+        return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping("/{id}/estado")
-    public ResponseEntity<?> cambiarEstado(
-            @PathVariable Integer id,
-            @RequestParam String estado) {
+    public ResponseEntity<?> cambiarEstado(@PathVariable Integer id, @RequestParam String estado){
+    try{
         return ResponseEntity.ok(soliService.cambiarEstado(id, estado));
+    }catch (RuntimeException e){
+        return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminar(@PathVariable Integer id) {
+    public ResponseEntity<?> eliminar(@PathVariable Integer id){
+    try{
         soliService.eliminar(id);
-        return ResponseEntity.ok("Solicitud eliminada");
+        return ResponseEntity.ok("Solicitud eliminada correctamente");
+    }catch (RuntimeException e){
+        return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
     
 }
