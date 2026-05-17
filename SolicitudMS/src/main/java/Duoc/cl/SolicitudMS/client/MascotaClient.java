@@ -9,6 +9,6 @@ import Duoc.cl.SolicitudMS.dto.MascotaDTO;
 @FeignClient(name = "mascota-service", url = "http://localhost:8087")
 public interface MascotaClient {
 
-    @GetMapping("/api/v1/mascotas/{id}")
+    @GetMapping("/api/v1/mascota/{id}")
     MascotaDTO buscarMascota(@PathVariable("id") Integer id);
 }
