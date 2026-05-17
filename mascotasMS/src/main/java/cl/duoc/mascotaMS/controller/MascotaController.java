@@ -73,7 +73,8 @@ public class MascotaController {
         MascotaDTO dto = new MascotaDTO(
                         mascota.getId(),
                         mascota.getNombre(),
-                        mascota.getTipo()
+                        mascota.getTipo(),
+                        mascota.getEstado()
         );
         return ResponseEntity.ok(dto);
 
