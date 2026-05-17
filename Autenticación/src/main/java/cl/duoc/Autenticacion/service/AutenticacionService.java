@@ -18,6 +18,12 @@ public class AutenticacionService {
 
     public Autenticacion registrar(AutenticacionDTO dto){
 
+        Autenticacion existente = authRepo.findByIdUsuario(dto.getIdUsuario());
+
+        if(existente != null){
+        return existente; 
+        }   
+
         Autenticacion auth = new Autenticacion();
         auth.setIdUsuario(dto.getIdUsuario());
         auth.setEstado("activo");

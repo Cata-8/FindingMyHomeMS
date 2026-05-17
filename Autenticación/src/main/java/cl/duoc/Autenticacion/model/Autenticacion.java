@@ -21,7 +21,7 @@ public class Autenticacion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String idAuth;
+    private Integer idAuth;
 
     @Column(nullable = false, unique = true)
     private Integer idUsuario;
