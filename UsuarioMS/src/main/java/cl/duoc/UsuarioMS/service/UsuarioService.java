@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cl.duoc.UsuarioMS.client.AutenticacionClient;
 import cl.duoc.UsuarioMS.dto.AdoptanteDTO;
+import cl.duoc.UsuarioMS.dto.AutenticacionDTO;
 import cl.duoc.UsuarioMS.dto.RefugioDTO;
 import cl.duoc.UsuarioMS.model.Adoptante;
 import cl.duoc.UsuarioMS.model.Refugio;
@@ -25,6 +27,9 @@ public class UsuarioService {
 
     @Autowired
     private RefugioRepository refugioRepo;
+
+    @Autowired
+    private AutenticacionClient authClient;
 
     public List<Usuario> listarUsuarios(){
         return usuarioRepo.findAll();
@@ -56,6 +61,12 @@ public class UsuarioService {
 
         Usuario usuarioGuardado = usuarioRepo.save(usuario);
 
+        AutenticacionDTO authDTO = new AutenticacionDTO(
+            usuarioGuardado.getIdUsuario()
+        );
+
+        authClient.registrar(authDTO);
+
         Adoptante adoptante = new Adoptante();
         adoptante.setUsuario(usuarioGuardado);
 
@@ -74,6 +85,11 @@ public class UsuarioService {
 
         Usuario usuarioGuardado = usuarioRepo.save(usuario);
 
+        AutenticacionDTO authDTO = new AutenticacionDTO(
+            usuarioGuardado.getIdUsuario()
+        );
+
+        authClient.registrar(authDTO);
 
         Refugio refugio = new Refugio();
         refugio.setUsuario(usuarioGuardado);

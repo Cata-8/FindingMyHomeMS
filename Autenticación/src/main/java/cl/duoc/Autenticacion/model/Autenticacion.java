@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "atenticacion")
+@Table(name = "autenticacion")
 @Entity
 public class Autenticacion {
 

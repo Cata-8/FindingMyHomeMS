@@ -17,6 +17,15 @@ public class AutenticacionController {
     @Autowired
     private AutenticacionService authService;
 
+    @PostMapping("/register")
+    public ResponseEntity<?> registrar(@RequestBody AutenticacionDTO dto){
+        try{
+            return ResponseEntity.ok(authService.registrar(dto));
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AutenticacionDTO dto){
         try{
