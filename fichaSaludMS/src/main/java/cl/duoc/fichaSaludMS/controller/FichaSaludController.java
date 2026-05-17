@@ -59,4 +59,14 @@ public class FichaSaludController {
         }
     }
 
+    @GetMapping("/{id}/detalle")
+    public ResponseEntity<FichaSaludDTO> detalle(@PathVariable Integer id){
+        try {
+            FichaSaludDTO dto = service.obtenerDetalle(id);
+            return ResponseEntity.ok(dto);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
