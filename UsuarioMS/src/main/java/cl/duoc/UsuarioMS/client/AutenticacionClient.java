@@ -9,6 +9,6 @@ import cl.duoc.UsuarioMS.dto.AutenticacionDTO;
 @FeignClient(name = "auth-service", url = "http://localhost:8084")
 public interface AutenticacionClient {
 
-    @PostMapping("/api/auth/register")
+    @PostMapping("/api/v1/auth/register")
     void registrar(@RequestBody AutenticacionDTO dto);
 }
