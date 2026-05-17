@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cl.duoc.Autenticacion.dto.AutenticacionDTO;
-import cl.duoc.Autenticacion.model.Autenticacion;
 import cl.duoc.Autenticacion.service.AutenticacionService;
 
 @RestController

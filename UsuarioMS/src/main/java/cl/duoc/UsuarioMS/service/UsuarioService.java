@@ -52,6 +52,7 @@ public class UsuarioService {
         usuario.setApellido(dto.getApellido());
         usuario.setEmail(dto.getEmail());
         usuario.setTelefono(dto.getTelefono());
+        usuario.setPassword(dto.getPassword());
 
         Usuario usuarioGuardado = usuarioRepo.save(usuario);
 
@@ -69,8 +70,10 @@ public class UsuarioService {
         usuario.setApellido(dto.getApellido());
         usuario.setEmail(dto.getEmail());
         usuario.setTelefono(dto.getTelefono());
+        usuario.setPassword(dto.getPassword());
 
         Usuario usuarioGuardado = usuarioRepo.save(usuario);
+
 
         Refugio refugio = new Refugio();
         refugio.setUsuario(usuarioGuardado);
