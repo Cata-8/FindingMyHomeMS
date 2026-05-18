@@ -55,7 +55,7 @@ public class NotificacionService {
         dto.setMensaje(notificacion.getMensaje());
         dto.setFechaEmision(notificacion.getFechaEmision());
 
-        dto.setUsuario(usuario);
+        dto.setIdUsuario(notificacion.getUsuarioId());
 
         return dto;
     }

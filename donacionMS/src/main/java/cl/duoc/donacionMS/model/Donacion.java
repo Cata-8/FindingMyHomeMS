@@ -32,11 +32,8 @@ public class Donacion {
     @Column(nullable = false)
     private String metodoDePago;
 
-    @Column(name = "refugio_id", nullable = false)
-    private Integer idUsuarioRefugio;
-
-    @Column(name = "adoptante_id", nullable = false)
-    private Integer idUsuarioAdoptante;
+    @Column(name = "usuario_id", nullable = false)
+    private Integer idUsuario;
 
     
 }

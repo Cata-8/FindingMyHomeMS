@@ -1,4 +1,4 @@
-package cl.duoc.donacionMS.dto;
+package cl.duoc.fichaSaludMS.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdoptanteDTO {
+public class MascotaDTO {
 
-    private Integer idUsuario;
+    private Integer id;
     private String nombre;
-    private String apellido;
+    private String tipo;
 }

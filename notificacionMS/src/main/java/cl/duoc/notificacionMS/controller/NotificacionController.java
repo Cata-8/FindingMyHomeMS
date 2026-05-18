@@ -46,7 +46,13 @@ public class NotificacionController {
     @GetMapping("/{id}/notificacionDetallada")
     public ResponseEntity<NotificacionDTO>detalle(@PathVariable Integer id){
         try {
-            NotificacionDTO dto = service.obtenerNotificacion(id);
+            Notificacion notificacion = service.buscarPorId(id);
+            NotificacionDTO dto = new NotificacionDTO(
+                                    notificacion.getId(),
+                                    notificacion.getMensaje(),
+                                    notificacion.getFechaEmision(),
+                                    notificacion.getUsuarioId()
+            );
             return ResponseEntity.ok(dto);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();

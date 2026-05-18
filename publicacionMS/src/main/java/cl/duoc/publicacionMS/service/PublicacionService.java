@@ -52,7 +52,7 @@ public class PublicacionService {
         dto.setId(publicacion.getId());
         dto.setTitulo(publicacion.getTitulo());
         dto.setFechaPublicacion(publicacion.getFechaPublicacion());
-        dto.setMascota(mascota);
+        dto.setIdMascota(publicacion.getIdMascota());
 
         return dto;
     }

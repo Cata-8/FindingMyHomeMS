@@ -14,6 +14,5 @@ public class DonacionDetalleDTO {
     private Integer id;
     private Date fecha;
     
-    private AdoptanteDTO adoptante;
-    private RefugioDTO refugio;
+    private Integer idUsuario;
 }

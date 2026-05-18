@@ -44,7 +44,12 @@ public class DonacionController {
     @GetMapping("/{id}/detalle")
     public ResponseEntity<DonacionDetalleDTO> detalle(@PathVariable Integer id){
         try {
-            DonacionDetalleDTO dto = service.obtenerDetalle(id);
+            Donacion donacion = service.buscarPorId(id);
+            DonacionDetalleDTO dto = new DonacionDetalleDTO(
+                                        donacion.getId(),
+                                        donacion.getFecha(),
+                                        donacion.getIdUsuario()
+            );
             return ResponseEntity.ok(dto);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
