@@ -1,4 +1,4 @@
-package cl.Duoc.HistorialAdopcionMS.model;
+package cl.Duoc.HistorialAdopcionMS;
 
 import java.time.LocalDate;
 
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "historialAdopcion")
-public class HistorialModel {
+public class HistorialAdopcion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

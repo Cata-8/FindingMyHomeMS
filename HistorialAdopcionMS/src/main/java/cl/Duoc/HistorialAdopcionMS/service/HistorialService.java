@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cl.Duoc.HistorialAdopcionMS.HistorialAdopcion;
 import cl.Duoc.HistorialAdopcionMS.client.MascotaClient;
 import cl.Duoc.HistorialAdopcionMS.client.UsuarioClient;
 import cl.Duoc.HistorialAdopcionMS.dto.HistorialDTO;
 import cl.Duoc.HistorialAdopcionMS.dto.MascotaDTO;
-import cl.Duoc.HistorialAdopcionMS.model.HistorialAdopcion;
 import cl.Duoc.HistorialAdopcionMS.repository.HistorialRepository;
 
 @Service

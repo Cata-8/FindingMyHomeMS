@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import cl.Duoc.HistorialAdopcionMS.HistorialAdopcion;
 import cl.Duoc.HistorialAdopcionMS.dto.HistorialDTO;
-import cl.Duoc.HistorialAdopcionMS.model.HistorialAdopcion;
 import cl.Duoc.HistorialAdopcionMS.service.HistorialService;
 
 @RestController
