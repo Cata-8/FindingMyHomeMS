@@ -4,7 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import cl.Duoc.HistorialAdopcionMS.HistorialAdopcion;
+import cl.Duoc.HistorialAdopcionMS.model.HistorialAdopcion;
 import cl.Duoc.HistorialAdopcionMS.repository.HistorialRepository;
 
 @Configuration
