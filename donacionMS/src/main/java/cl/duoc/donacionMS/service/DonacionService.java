@@ -51,7 +51,7 @@ public class DonacionService {
         dto.setId(donacion.getId());
         dto.setFecha(donacion.getFecha());
 
-        dto.setUsuario(usuario);
+        dto.setIdUsuario(donacion.getIdUsuario());
 
         return dto;
 
