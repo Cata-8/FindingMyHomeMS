@@ -21,6 +21,6 @@ public class NotificacionDTO {
     private Date fechaEmision;
 
 
-    private UsuarioDTO usuario;
+    private Integer idUsuario;
     
 }
