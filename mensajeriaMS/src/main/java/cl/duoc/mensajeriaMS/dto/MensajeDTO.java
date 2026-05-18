@@ -1,5 +1,6 @@
 package cl.duoc.mensajeriaMS.dto;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
@@ -17,5 +18,7 @@ public class MensajeDTO {
 
     private Integer idDestinatario;
 
-    private Date fechaEnvio;
+    private LocalDate fechaEnvio;
+    
+    private boolean leido;
 }

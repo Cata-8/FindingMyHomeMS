@@ -1,5 +1,6 @@
 package cl.duoc.mensajeriaMS.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import jakarta.persistence.Column;
