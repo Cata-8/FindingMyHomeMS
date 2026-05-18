@@ -58,7 +58,13 @@ public class PublicacionController {
     @GetMapping("/{id}/detalle")
     public ResponseEntity<PublicacionDTO> detalle(@PathVariable Integer id){
         try {
-            PublicacionDTO dto = service.obtenerDetalle(id);
+            Publicacion publicacion = service.buscarPorId(id);
+            PublicacionDTO dto = new PublicacionDTO(
+                                    publicacion.getId(),
+                                    publicacion.getTitulo(),
+                                    publicacion.getFechaPublicacion(),
+                                    publicacion.getIdMascota()
+            );
             return ResponseEntity.ok(dto);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
