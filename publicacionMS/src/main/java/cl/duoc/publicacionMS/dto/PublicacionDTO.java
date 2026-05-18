@@ -15,5 +15,5 @@ public class PublicacionDTO {
     private String titulo;
     private Date fechaPublicacion;
 
-    private MascotaDTO mascota;
+    private Integer idMascota;
 }
