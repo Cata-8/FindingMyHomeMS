@@ -1,13 +1,13 @@
 package cl.duoc.mensajeriaMS.model;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,7 +34,12 @@ public class Mensaje {
     private String contenido;
 
     @Column(nullable = false)
-    private Date fechaEnvio;
+    private LocalDate fechaEnvio;
+
+    @PrePersist
+    public void prePersist() {
+        this.fechaEnvio = LocalDate.now();
+    }
 
     @Column(nullable = false)
     private boolean leido;
