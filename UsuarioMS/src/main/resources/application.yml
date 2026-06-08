@@ -1,0 +1,28 @@
+
+spring:
+  application:
+    name: UsuarioMS
+  datasource:
+    url: jdbc:mysql://localhost:3306/usuario_db
+    username: root
+    password: ""
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: 8081
+
+springdoc:
+  api-docs:
+    enabled: true
+    version: openapi_3_0
+  swagger-ui:
+    enabled: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: "http de eureka"
+
