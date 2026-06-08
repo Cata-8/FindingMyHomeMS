@@ -1,18 +1,19 @@
-
 spring:
   application:
-    name: UsuarioMS
+    name: Autenticacion
+
   datasource:
-    url: jdbc:mysql://localhost:3306/usuario_db
+    url: jdbc:mysql://localhost:3306/autenticacion_db
     username: root
     password: ""
+
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
 
 server:
-  port: 8081
+  port: 8084
 
 eureka:
   client:
