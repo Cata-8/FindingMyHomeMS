@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    discovery:
+      locator:
+        enabled: true
+        lower-case-service-id: true
+    routes:
+      - id: usuario-ms
+        url: lb://UsuarioMS
+        predicates:
+          - Path=/api/v1/usuarios/**
+
+      - id:
+
