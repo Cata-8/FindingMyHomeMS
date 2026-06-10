@@ -37,14 +37,14 @@ public class UsuarioService {
 
     public Usuario buscarUsuario(Integer id){
     if(id == null){
-        throw new RuntimeException("El id no puede ser null");
+        throw new RuntimeException("Usuario no encontrado");
     }
     return usuarioRepo.findById(id).orElse(null);
 }
 
     public void eliminarUsuario(Integer id){
     if(id == null){
-        throw new RuntimeException("El id no puede ser null");
+        throw new RuntimeException("Usuario no encontrado");
     }
     usuarioRepo.deleteById(id);
 }
