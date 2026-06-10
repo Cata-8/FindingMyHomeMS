@@ -16,7 +16,7 @@ import cl.duoc.UsuarioMS.service.UsuarioService;
 public class UsuarioControllerTest {
 
     @Autowired
-    private MockMvc mock; //simala las peticiones http
+    private MockMvc mock; //simula las peticiones http
 
     @Mock
     private UsuarioService serviceU; //service falso 
@@ -41,7 +41,7 @@ public class UsuarioControllerTest {
         //ARRANGE = debe retornar usuario
         when(serviceU.buscarUsuario(1)).thenReturn(usuarioEjemplo);
 
-        //ACT + ASSERT
+        //ACT + ASSERT = retorna un 200
         mock.perform(get("/api/v1/usuarios/1")).andExpect(status().isOK());
 
     }
@@ -51,11 +51,12 @@ public class UsuarioControllerTest {
 
     @Test
     void buscarUsuario_retorna404(){
-        //ARRANGE = no debe retornar usuario
-        when(serviceU.buscarUsuario(99)).thenReturn(usuarioEjemplo);
+        //ARRANGE = no deberia retornar usuario
+        when(serviceU.buscarUsuario(99)).thenThrow(new RuntimeException("Usuario no encontrado"));
 
-        //ACT + ASSERT
-        mock.perform(get("/api/v1/usuarios/99")).andExpect(status().isOK());
+        //ACT + ASSERT = retorna un 404
+        mock.perform(get("/api/v1/usuarios/99"))
+            .andExpect(status().isNotFound());
 
     }
 }
