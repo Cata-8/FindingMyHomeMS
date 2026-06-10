@@ -71,4 +71,9 @@ public class UsuarioServiceTest {
         assertEquals("Usuario no encontrado", exception.getMessage());
     }
 
+    @Test
+    void guardarAdoptante(){
+        
+    }
+
 }
