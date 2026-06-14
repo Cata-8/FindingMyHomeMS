@@ -39,6 +39,7 @@ public class MascotaController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Buscar mascota por ID", description = "Retorna una mascota según el ID proporcionado")
     public ResponseEntity<Mascota> buscarPorId(@PathVariable Integer id){
         try {
             return ResponseEntity.ok(service.buscarPorId(id));
@@ -48,6 +49,7 @@ public class MascotaController {
     }
 
     @GetMapping("/estado/{estado}")
+    @Operation(summary = "Busca mascotas segun el estado", description = "Retorna la mascota o el listado de mascotas según el estado proporcionado, ya sea desponible, adopción")
     public ResponseEntity<Mascota> buscarPorEstado(@PathVariable String estado){
         try {
             return ResponseEntity.ok(service.buscarPorEstado(estado));
@@ -57,11 +59,13 @@ public class MascotaController {
     }
 
     @PostMapping
+    @Operation(summary = "Guarda una nueva mascota")
     public ResponseEntity<Mascota> guardar(@RequestBody Mascota mascota){
         return ResponseEntity.ok(service.guardar(mascota));
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Elimina a una mascota según el ID ingresado")
     public ResponseEntity<Void> eliminar(@PathVariable Integer id){
         try {
             service.eliminar(id);
@@ -72,6 +76,7 @@ public class MascotaController {
     }
 
     @GetMapping("/dto/{id}")
+    @Operation(summary = "Busca MascotaDTO")
     public ResponseEntity<MascotaDTO> obtenerMascotaDTO(@PathVariable Integer id){
         Mascota mascota = service.buscarPorId(id);
         MascotaDTO dto = new MascotaDTO(
