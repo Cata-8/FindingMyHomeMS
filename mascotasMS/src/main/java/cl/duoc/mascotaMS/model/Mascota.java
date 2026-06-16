@@ -23,7 +23,7 @@ public class Mascota {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "ID unico del paciente. Solo se permiten datos numericos", examples = {"1", "2"})
+    @Schema(description = "ID unico de la mascota. Solo se permiten datos numericos", examples = {"1", "2"})
     private Integer id;
 
     @Column(nullable = false)

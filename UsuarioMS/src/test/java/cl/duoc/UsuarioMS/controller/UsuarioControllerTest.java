@@ -1,11 +1,14 @@
 package cl.duoc.UsuarioMS.controller;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import ch.qos.logback.core.joran.action.Action;
@@ -18,7 +21,7 @@ public class UsuarioControllerTest {
     @Autowired
     private MockMvc mock; //simula las peticiones http
 
-    @Mock
+    @MockitoBean
     private UsuarioService serviceU; //service falso 
 
     private Usuario usuarioEjemplo;
@@ -42,7 +45,7 @@ public class UsuarioControllerTest {
         when(serviceU.buscarUsuario(1)).thenReturn(usuarioEjemplo);
 
         //ACT + ASSERT = retorna un 200
-        mock.perform(get("/api/v1/usuarios/1")).andExpect(status().isOK());
+        mock.perform(get("/api/v1/usuarios/1")).andExpect(status().isOk());
 
     }
 
