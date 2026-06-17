@@ -2,6 +2,7 @@ package cl.duoc.UsuarioMS.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -17,9 +18,11 @@ import lombok.NoArgsConstructor;
 @Data
 @Table(name = "adoptante")
 @Entity
+@Schema(description = "Información de un usuario adoptante")
 public class Adoptante {
 
     @Id
+    @Schema(description = "ID unico del usuario")
     private Integer idUsuario;
 
     @OneToOne
