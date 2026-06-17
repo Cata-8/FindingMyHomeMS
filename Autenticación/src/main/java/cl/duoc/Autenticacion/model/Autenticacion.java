@@ -23,7 +23,7 @@ public class Autenticacion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "Identificador único de autenticación", example = "1")
+    @Schema(description = "Identificador único de autenticación, Se autoincrementa y solo permite datos numericos", example = "1")
     private Integer idAuth;
 
     @Column(nullable = false, unique = true)
