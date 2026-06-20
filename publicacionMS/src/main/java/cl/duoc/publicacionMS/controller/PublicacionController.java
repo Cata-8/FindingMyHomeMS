@@ -15,26 +15,32 @@ import org.springframework.web.bind.annotation.RestController;
 import cl.duoc.publicacionMS.dto.PublicacionDTO;
 import cl.duoc.publicacionMS.model.Publicacion;
 import cl.duoc.publicacionMS.service.PublicacionService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/v1/publicacion")
+@Tag(name = "Publicaciones", description = "Operaciones sobre publicaciones de adopción")
 public class PublicacionController {
 
     @Autowired
     private PublicacionService service;
 
+
     @GetMapping
+    @Operation(summary = "Listar publicaciones", description = "Retorna todas las publicaciones registradas en el sistema")
     public ResponseEntity<List<Publicacion>> listar() {
         List<Publicacion> lista = service.listar();
-
         if (lista.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-
         return ResponseEntity.ok(lista);
     }
 
+
     @PostMapping
+    @Operation(summary = "Crear publicación", description = "Registra una nueva publicación de adopción")
     public ResponseEntity<Publicacion> guardar(@RequestBody Publicacion publicacion) {
         try {
             Publicacion nueva = service.guardar(publicacion);
@@ -42,11 +48,13 @@ public class PublicacionController {
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
-        
     }
 
+
     @GetMapping("/{id}")
-    public ResponseEntity<Publicacion> buscar(@PathVariable Integer id) {
+    @Operation(summary = "Buscar publicación por ID", description = "Retorna una publicación según el ID proporcionado")
+    public ResponseEntity<Publicacion> buscar(
+            @Parameter(description = "ID de la publicación a buscar") @PathVariable Integer id) {
         try {
             Publicacion publicacion = service.buscarPorId(id);
             return ResponseEntity.ok(publicacion);
@@ -55,15 +63,19 @@ public class PublicacionController {
         }
     }
 
+
     @GetMapping("/{id}/detalle")
-    public ResponseEntity<PublicacionDTO> detalle(@PathVariable Integer id){
+    @Operation(summary = "Retorna un Publicacion DTO",
+            description = "Retorna los datos basicos de una publicación segun su id, este metodo se utiliza para ser llamado desde otros microservicios cuando se necesiten los datos de una publicación")
+    public ResponseEntity<PublicacionDTO> detalle(
+            @Parameter(description = "ID de la publicación") @PathVariable Integer id) {
         try {
             Publicacion publicacion = service.buscarPorId(id);
             PublicacionDTO dto = new PublicacionDTO(
-                                    publicacion.getId(),
-                                    publicacion.getTitulo(),
-                                    publicacion.getFechaPublicacion(),
-                                    publicacion.getIdMascota()
+                    publicacion.getId(),
+                    publicacion.getTitulo(),
+                    publicacion.getFechaPublicacion(),
+                    publicacion.getIdMascota()
             );
             return ResponseEntity.ok(dto);
         } catch (Exception e) {
@@ -71,8 +83,11 @@ public class PublicacionController {
         }
     }
 
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Integer id){
+    @Operation(summary = "Eliminar publicación", description = "Elimina una publicación según el ID ingresado")
+    public ResponseEntity<Void> eliminar(
+            @Parameter(description = "ID de la publicación a eliminar") @PathVariable Integer id) {
         try {
             service.eliminar(id);
             return ResponseEntity.noContent().build();
