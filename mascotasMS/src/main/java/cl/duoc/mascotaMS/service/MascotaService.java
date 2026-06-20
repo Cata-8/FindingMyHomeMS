@@ -22,9 +22,9 @@ public class MascotaService {
         return repo.findById(id).orElseThrow(() -> new RuntimeException("Mascota no encontrada"));
     }
 
-    public Mascota buscarPorEstado(String estado){
-        return repo.findByEstado(estado).orElseThrow(() -> new RuntimeException("Mascota no encontrada"));
-    }
+    public List<Mascota> buscarPorEstado(String estado) {
+    return repo.findByEstado(estado);
+}
 
     public Mascota guardar(Mascota mascota){
         return repo.save(mascota);

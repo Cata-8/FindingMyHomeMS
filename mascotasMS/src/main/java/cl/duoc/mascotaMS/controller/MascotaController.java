@@ -16,6 +16,7 @@ import cl.duoc.mascotaMS.dto.MascotaDTO;
 import cl.duoc.mascotaMS.model.Mascota;
 import cl.duoc.mascotaMS.service.MascotaService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
@@ -27,20 +28,19 @@ public class MascotaController {
     private MascotaService service;
 
     @GetMapping
-    @Operation(summary = "Llama a todas las mascotas ingresadas en el sistema")
-    public ResponseEntity<List<Mascota>> listar(){
+    @Operation(summary = "Listar mascotas", description = "Retorna todas las mascotas ingresadas en el sistema")
+    public ResponseEntity<List<Mascota>> listar() {
         List<Mascota> lista = service.listar();
-
-        if(lista.isEmpty()){
+        if (lista.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-
         return ResponseEntity.ok(lista);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Buscar mascota por ID", description = "Retorna una mascota según el ID proporcionado")
-    public ResponseEntity<Mascota> buscarPorId(@PathVariable Integer id){
+    public ResponseEntity<Mascota> buscarPorId(
+            @Parameter(description = "ID de la mascota a buscar") @PathVariable Integer id) {
         try {
             return ResponseEntity.ok(service.buscarPorId(id));
         } catch (Exception e) {
@@ -49,24 +49,31 @@ public class MascotaController {
     }
 
     @GetMapping("/estado/{estado}")
-    @Operation(summary = "Busca mascotas segun el estado", description = "Retorna la mascota o el listado de mascotas según el estado proporcionado, ya sea desponible, adopción")
-    public ResponseEntity<Mascota> buscarPorEstado(@PathVariable String estado){
+    @Operation(summary = "Buscar mascotas por estado",
+            description = "Retorna el listado de mascotas según el estado proporcionado, ya sea disponible, en adopción, etc.")
+    public ResponseEntity<List<Mascota>> buscarPorEstado(
+            @Parameter(description = "Estado de la mascota (ej: disponible, adoptado)") @PathVariable String estado) {
         try {
-            return ResponseEntity.ok(service.buscarPorEstado(estado));
+            List<Mascota> lista = service.buscarPorEstado(estado);
+            if (lista.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(lista);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping
-    @Operation(summary = "Guarda una nueva mascota")
-    public ResponseEntity<Mascota> guardar(@RequestBody Mascota mascota){
+    @Operation(summary = "Guardar mascota", description = "Registra una nueva mascota en el sistema")
+    public ResponseEntity<Mascota> guardar(@RequestBody Mascota mascota) {
         return ResponseEntity.ok(service.guardar(mascota));
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Elimina a una mascota según el ID ingresado")
-    public ResponseEntity<Void> eliminar(@PathVariable Integer id){
+    @Operation(summary = "Eliminar mascota", description = "Elimina una mascota según el ID ingresado")
+    public ResponseEntity<Void> eliminar(
+            @Parameter(description = "ID de la mascota a eliminar") @PathVariable Integer id) {
         try {
             service.eliminar(id);
             return ResponseEntity.noContent().build();
@@ -76,16 +83,20 @@ public class MascotaController {
     }
 
     @GetMapping("/dto/{id}")
-    @Operation(summary = "Busca MascotaDTO")
-    public ResponseEntity<MascotaDTO> obtenerMascotaDTO(@PathVariable Integer id){
+    @Operation(summary = "Retorna un Mascota DTO",
+               description = "Retorna los datos basicos de una mascota segun su id, este metodo se utiliza para ser llamado desde otros microservicios cuando se necesite los datos de una mascota")
+    public ResponseEntity<MascotaDTO> obtenerMascotaDTO(
+            @Parameter(description = "ID de la mascota") @PathVariable Integer id) {
         Mascota mascota = service.buscarPorId(id);
+        if (mascota == null) {
+            return ResponseEntity.notFound().build();
+        }
         MascotaDTO dto = new MascotaDTO(
-                        mascota.getId(),
-                        mascota.getNombre(),
-                        mascota.getTipo(),
-                        mascota.getEstado()
+                mascota.getId(),
+                mascota.getNombre(),
+                mascota.getTipo(),
+                mascota.getEstado()
         );
         return ResponseEntity.ok(dto);
-
     }
 }
