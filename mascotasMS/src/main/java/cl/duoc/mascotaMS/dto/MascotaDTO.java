@@ -20,6 +20,6 @@ public class MascotaDTO {
     @Schema(description = "Se clasifica de que especie es el animal, ya sea perro o gato")
     private String tipo;
 
-    @Schema(description = "Nombre de la mascota entregado por el refugio", examples = {"Gaspar", "El hechicero"})
+    @Schema(description = "Estado de la mascota, este puede ser 'Adoptado', 'Disponible' o 'Pendiente'")
     private String estado;
 }
