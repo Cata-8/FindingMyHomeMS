@@ -11,15 +11,15 @@ import lombok.NoArgsConstructor;
 @Schema(description = "Datos de una mascota")
 public class MascotaDTO {
 
-    @Schema(description = "Identificador único de la mascota")
+    @Schema(description = "ID unico de la mascota. Solo se permiten datos numericos", examples = {"1", "2"})
     private Integer id;
 
     @Schema(description = "Nombre de la mascota")
     private String nombre;
 
-    @Schema(description = "Tipo de mascota: perro, gato")
+    @Schema(description = "Se clasifica de que especie es el animal, ya sea perro o gato")
     private String tipo;
 
-    @Schema(description = "Estado actual de la mascota: disponible, en adopción, adoptado")
+    @Schema(description = "Nombre de la mascota entregado por el refugio", examples = {"Gaspar", "El hechicero"})
     private String estado;
 }
