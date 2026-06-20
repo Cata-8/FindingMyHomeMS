@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "mascota")
-@Schema(description = "Representa una mascota en el sistema")
+@Schema(description = "Representa informacion de una mascota registrado en el sistema")
 public class Mascota {
 
     @Id

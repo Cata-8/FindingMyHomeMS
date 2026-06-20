@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Table(name= "usuario")
 @Entity
-@Schema(description = "Representa un usuario registrado en el sistema")
+@Schema(description = "Representa informacion de un usuario registrado en el sistema")
 public class Usuario {
 
 
