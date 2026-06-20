@@ -35,7 +35,7 @@ public class Refugio {
     private String direccion;
 
     @Column(nullable = false)
-    @Schema(description = "Descripción")
+    @Schema(description = "Descripción del refugio")
     private String descripcion;
 
     @Column(nullable = false)

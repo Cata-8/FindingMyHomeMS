@@ -19,6 +19,7 @@ import cl.duoc.UsuarioMS.model.Refugio;
 import cl.duoc.UsuarioMS.model.Usuario;
 import cl.duoc.UsuarioMS.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
@@ -80,7 +81,7 @@ public class UsuarioController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Eliminar usuario por ID", description = "Elimina un usuario segun el ID proporcionado")
-    public ResponseEntity<?> eliminarUsuario(@PathVariable Integer id) {
+    public ResponseEntity<?> eliminarUsuario(@Parameter(description = "ID del usuario a eliminar")@PathVariable Integer id) {
         try{
             Uservice.eliminarUsuario(id);
             return ResponseEntity.ok("Usuario eliminado");
@@ -101,7 +102,7 @@ public class UsuarioController {
     if (adoptante == null) {
         return ResponseEntity.notFound().build();
         }
-        
+
     AdoptanteDTO dto = new AdoptanteDTO(
             usuario.getNombre(),
             usuario.getApellido(),
