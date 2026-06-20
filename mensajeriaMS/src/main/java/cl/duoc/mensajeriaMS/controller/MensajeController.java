@@ -63,7 +63,7 @@ public class MensajeController {
         }
     }
 
-    @DeleteMapping("/eliminar/{id}")
+    @DeleteMapping("/{id}")
     @Operation(summary = "Eliminar mensaje", description = "Elimina un mensaje según el ID ingresado")
     public ResponseEntity<?> eliminar(
             @Parameter(description = "ID del mensaje a eliminar") @PathVariable Integer id) {
