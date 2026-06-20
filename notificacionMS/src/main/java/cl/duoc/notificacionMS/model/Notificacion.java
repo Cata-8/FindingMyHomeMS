@@ -26,6 +26,7 @@ public class Notificacion {
     @Schema(description = "ID de la notificacion, solo permite datos numericos y se autoincrementa")
     private Integer id;
 
+    
     @Column(nullable = false)
     @Schema(description = "Mensaje que contiene la notificación")
     private String mensaje;
