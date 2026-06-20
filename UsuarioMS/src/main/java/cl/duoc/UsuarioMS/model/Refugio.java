@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 public class Refugio {
 
     @Id
-    @Schema(description = "ID del usuario")
+    @Schema(description = "Identificador único del usuario")
     private Integer idUsuario;
 
     @Column(nullable = false)
