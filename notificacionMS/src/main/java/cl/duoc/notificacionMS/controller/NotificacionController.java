@@ -14,27 +14,32 @@ import org.springframework.web.bind.annotation.RestController;
 import cl.duoc.notificacionMS.dto.NotificacionDTO;
 import cl.duoc.notificacionMS.model.Notificacion;
 import cl.duoc.notificacionMS.service.NotificacionService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/v1/notificaciones")
+@Tag(name = "Notificaciones", description = "Operaciones sobre notificaciones de usuarios")
 public class NotificacionController {
 
     @Autowired
     private NotificacionService service;
 
     @GetMapping
-    public ResponseEntity<List<Notificacion>> listar(){
+    @Operation(summary = "Listar notificaciones", description = "Retorna todas las notificaciones registradas en el sistema")
+    public ResponseEntity<List<Notificacion>> listar() {
         List<Notificacion> lista = service.listar();
-        
-        if(lista.isEmpty()){
+        if (lista.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-
         return ResponseEntity.ok(lista);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Notificacion> buscar(@PathVariable Integer id){
+    @Operation(summary = "Buscar notificación por ID", description = "Retorna una notificación según el ID proporcionado")
+    public ResponseEntity<Notificacion> buscar(
+            @Parameter(description = "ID de la notificación a buscar") @PathVariable Integer id) {
         try {
             Notificacion notificacion = service.buscarPorId(id);
             return ResponseEntity.ok(notificacion);
@@ -44,14 +49,17 @@ public class NotificacionController {
     }
 
     @GetMapping("/{id}/notificacionDetallada")
-    public ResponseEntity<NotificacionDTO>detalle(@PathVariable Integer id){
+    @Operation(summary = "Retorna una Notificacion DTO",
+            description = "Retorna los datos detallados de una notificación segun su id, este metodo se utiliza para ser llamado desde otros microservicios cuando se necesiten los datos de una notificación")
+    public ResponseEntity<NotificacionDTO> detalle(
+            @Parameter(description = "ID de la notificación") @PathVariable Integer id) {
         try {
             Notificacion notificacion = service.buscarPorId(id);
             NotificacionDTO dto = new NotificacionDTO(
-                                    notificacion.getId(),
-                                    notificacion.getMensaje(),
-                                    notificacion.getFechaEmision(),
-                                    notificacion.getUsuarioId()
+                    notificacion.getId(),
+                    notificacion.getMensaje(),
+                    notificacion.getFechaEmision(),
+                    notificacion.getUsuarioId()
             );
             return ResponseEntity.ok(dto);
         } catch (Exception e) {
@@ -60,7 +68,8 @@ public class NotificacionController {
     }
 
     @PostMapping
-    public ResponseEntity<Notificacion> guardar(@RequestBody Notificacion notificacion){
+    @Operation(summary = "Crear notificación", description = "Registra una nueva notificación para un usuario")
+    public ResponseEntity<Notificacion> guardar(@RequestBody Notificacion notificacion) {
         Notificacion nuevaNotificacion = service.guardar(notificacion);
         return ResponseEntity.ok(nuevaNotificacion);
     }
