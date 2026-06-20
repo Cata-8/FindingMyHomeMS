@@ -11,7 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.google.common.base.Optional;
+import java.util.Optional;
 
 import cl.duoc.UsuarioMS.model.Usuario;
 import cl.duoc.UsuarioMS.repository.UsuarioRepository;
