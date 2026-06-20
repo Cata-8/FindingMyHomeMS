@@ -19,4 +19,6 @@ public class UsuarioDTO {
 
     @Schema(description = "Apellido del usuario")
     private String apellido;
+
+    
 }
