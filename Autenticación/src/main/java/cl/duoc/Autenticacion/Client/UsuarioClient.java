@@ -1,10 +1,10 @@
-package cl.duoc.mensajeriaMS.client;
+package cl.duoc.Autenticacion.Client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import cl.duoc.mensajeriaMS.dto.UsuarioDTO;
+import cl.duoc.Autenticacion.dto.UsuarioDTO;
 
 @FeignClient(name = "usuarios-ms")
 public interface UsuarioClient {
