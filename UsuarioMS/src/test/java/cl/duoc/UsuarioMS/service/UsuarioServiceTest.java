@@ -13,11 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-<<<<<<< HEAD
-import java.util.Optional;
-=======
->>>>>>> 9484991cd445f1b479bc7b8a12639a32ae7df4c1
-
 import cl.duoc.UsuarioMS.model.Usuario;
 import cl.duoc.UsuarioMS.repository.UsuarioRepository;
 
