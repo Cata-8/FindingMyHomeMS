@@ -47,6 +47,23 @@ public class MascotaServiceTest {
     }
 
     @Test
+    void listar_retornaListaMacotas(){
+        // ARRANGE: creamos la lista manualmente
+        List<Mascota> listaFalsa = new ArrayList<>();
+        listaFalsa.add(mascotaEjemplo);
+
+        // le decimos al repositorio falso que devuelva esa lista cuando se llame findAll()
+        when(mascotaRepo.findAll()).thenReturn(listaFalsa);
+
+        // ACT: llamamos al método real del servicio
+        List<Mascota> resultado = mascotaService.listar();
+
+        // ASSERT: verificamos el resultado
+        assertEquals(1, resultado.size());
+        assertEquals("Leo", resultado.get(0).getNombre());
+    }
+
+    @Test
     void buscarPorId_encontrado(){
         // ARRANGE: preparamos la prueba, le decimos que hacer
         Optional<Mascota> optionalMascota = Optional.of(mascotaEjemplo);
@@ -87,6 +104,7 @@ public class MascotaServiceTest {
 
         //ASSERT
         assertEquals("Leo", resultado.getNombre());
+        verify(mascotaRepo, times(1).save(mascotaEjemplo)); // verificamos que save fue llamado
     }
 
     @Test
@@ -106,8 +124,15 @@ public class MascotaServiceTest {
         //ARRANGE: la mascota existe
         when(mascotaRepo.existsById(99)).thenReturn(false);
 
-        //ACT + ASSERT: no debe lanzar un error/exception
+        //ACT + ASSERT: no debe lanzar un error/exception, debe lanzar excepción
+        RuntimeException ex = assertThrows(RuntimeException.class, () ->{
+            mascotaService.eliminar(99);
+        });
+
         assertDoesNotThrow(() -> mascotaService.eliminar(1));
+
+        // verificamos que deleteById NUNCA fue llamado
+        verify(mascotaRepo, never()).deleteById(99);
 
     }
     
