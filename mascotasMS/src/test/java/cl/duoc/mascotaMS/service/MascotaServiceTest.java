@@ -3,6 +3,7 @@ package cl.duoc.mascotaMS.service;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -106,7 +107,7 @@ public class MascotaServiceTest {
 
         //ASSERT
         assertEquals("Leo", resultado.getNombre());
-        verify(mascotaRepo, times(1).save(mascotaEjemplo)); // verificamos que save fue llamado
+        verify(mascotaRepo, times(1)).save(mascotaEjemplo); // verificamos que save fue llamado
     }
 
     @Test
