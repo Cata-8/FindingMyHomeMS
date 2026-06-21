@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -20,7 +21,7 @@ public class UsuarioControllerTest {
     @Autowired
     private MockMvc mock; //simula las peticiones http
 
-    @Mock
+    @MockitoBean
     private UsuarioService serviceU; //service falso 
 
     private Usuario usuarioEjemplo;

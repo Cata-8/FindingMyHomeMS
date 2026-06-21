@@ -57,4 +57,11 @@ public class DonacionService {
 
     }
 
+    public void eliminar(Integer id){
+        if(!repo.existsById(id)){
+            throw new RuntimeException("Donacion no existe");
+        }
+        repo.deleteById(id);
+    }
+
 }
