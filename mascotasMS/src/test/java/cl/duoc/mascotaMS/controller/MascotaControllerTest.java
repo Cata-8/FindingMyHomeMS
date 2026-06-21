@@ -1,15 +1,24 @@
 package cl.duoc.mascotaMS.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -41,14 +50,38 @@ public class MascotaControllerTest {
     }
 
     @Test
+    void listar_retorna200ConMascotas() throws Exception {
+        // ARRANGE: creamos la lista falsa
+        List<Mascota> listaFalsa = new ArrayList<>();
+        listaFalsa.add(mascotaEjemplo);
+
+        // le decimos al servicio falso que devuelva esa lista
+        when(service.listar()).thenReturn(listaFalsa);
+
+        // ACT + ASSERT: simulamos el GET y verificamos la respuesta
+        mock.perform(get("/api/v1/mascota"))
+            .andExpect(status().isOk())                              // código HTTP 200
+            .andExpect(jsonPath("$[0].nombre").value("Leo")); 
+    }
+
+    @Test
+    void listar_retorna204SinDoctores() throws Exception {
+        // ARRANGE: lista vacía
+        List<Mascota> listaVacia = new ArrayList<>();
+        when(service.listar()).thenReturn(listaVacia);
+
+        // ACT + ASSERT: verificamos que retorna 204 sin contenido
+        mock.perform(get("/api/v1/mascota"))
+            .andExpect(status().isNoContent()); // código HTTP 204
+    }
+
+    @Test
     void buscarPorId_retorna200() throws Exception{
         //ARRANGE: el service debe retornar la mascota
         when(service.buscarPorId(1)).thenReturn(mascotaEjemplo);
 
         //ACT + ASSERT
         mock.perform(get("/api/v1/mascota/1")).andExpect(status().isOk());
-
-
     }
 
     @Test
@@ -60,5 +93,38 @@ public class MascotaControllerTest {
         mock.perform(get("/api/v1/mascota/99")).andExpect(status().isNotFound());// o sea un codigo HTTPS 404
 
     }
-    
+
+    @Test
+    void guardar_retorna200() throws Exception {
+        // ARRANGE
+        when(service.guardar(any(Mascota.class))).thenReturn(mascotaEjemplo);
+
+        // ACT + ASSERT
+        mock.perform(post("/api/v1/mascota")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"id\":1,\"nombre\":\"Leo\",\"tipo\": \"Perro\",\"edad\": 3,\"descripcion\": \"Tranquilo y cariñoso\",\"estado\": \"Disponible\",\"ubicacion\": \"Talca\"}"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.nombre").value("Leo"));
+    }
+
+    @Test
+    void eliminar_retorna204() throws Exception {
+        // ARRANGE: el servicio no hace nada (método void)
+        doNothing().when(service).eliminar(1);
+
+        // ACT + ASSERT
+        mock.perform(delete("/api/v1/mascota/1"))
+            .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void eliminar_retorna404() throws Exception {
+        // ARRANGE: el servicio lanza excepción
+        doThrow(new RuntimeException("Mascota no existe")).when(service).eliminar(99);
+
+        // ACT + ASSERT
+        mock.perform(delete("/api/v1/mascota/99"))
+            .andExpect(status().isNotFound());
+    }
+
 }
