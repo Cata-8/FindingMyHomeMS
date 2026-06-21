@@ -132,7 +132,7 @@ public class MascotaServiceTest {
             mascotaService.eliminar(99);
         });
 
-        assertDoesNotThrow(() -> mascotaService.eliminar(1));
+        assertEquals("Mascota no existe", ex.getMessage());
 
         // verificamos que deleteById NUNCA fue llamado
         verify(mascotaRepo, never()).deleteById(99);
