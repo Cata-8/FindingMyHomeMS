@@ -4,11 +4,10 @@ import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -40,12 +39,12 @@ public class UsuarioControllerTest {
 
 
     @Test
-    void buscarUsuario_retorna200(){
+    void buscarUsuario_retorna200() throws Exception{
         //ARRANGE = debe retornar usuario
         when(serviceU.buscarUsuario(1)).thenReturn(usuarioEjemplo);
 
         //ACT + ASSERT = retorna un 200
-        mock.perform(get("/api/v1/usuarios/1")).andExpect(status().isOK());
+        mock.perform(get("/api/v1/usuarios/1")).andExpect(status().isOk());
 
     }
 
@@ -53,7 +52,7 @@ public class UsuarioControllerTest {
 
 
     @Test
-    void buscarUsuario_retorna404(){
+    void buscarUsuario_retorna404() throws Exception{
         //ARRANGE = no deberia retornar usuario
         when(serviceU.buscarUsuario(99)).thenThrow(new RuntimeException("Usuario no encontrado"));
 
