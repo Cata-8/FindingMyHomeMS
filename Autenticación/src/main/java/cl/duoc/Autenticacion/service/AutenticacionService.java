@@ -21,7 +21,7 @@ public class AutenticacionService {
     private UsuarioClient usuarioClient;
 
     public Autenticacion registrar(AutenticacionDTO dto) {
-        UsuarioDTO usuario = usuarioClient.buscarUsuario(dto.getIdUsuario());
+        UsuarioDTO usuario = usuarioClient.obtenerUsuario(dto.getIdUsuario());
         if (usuario == null) {
             throw new RuntimeException("El usuario no existe en UsuarioMS");
         }
@@ -38,7 +38,7 @@ public class AutenticacionService {
     }
 
     public String login(AutenticacionDTO dto) {
-        UsuarioDTO usuario = usuarioClient.buscarUsuario(dto.getIdUsuario());
+        UsuarioDTO usuario = usuarioClient.obtenerUsuario(dto.getIdUsuario());
         if (usuario == null) {
             return "Usuario no encontrado en UsuarioMS";
         }

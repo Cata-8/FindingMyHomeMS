@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import cl.duoc.UsuarioMS.dto.AutenticacionDTO;
 
-@FeignClient(name = "auth-service", url = "http://localhost:8084")
+@FeignClient(name = "Autenticacion", url = "http://localhost:8084")
 public interface AutenticacionClient {
 
     @PostMapping("/api/v1/auth/register")

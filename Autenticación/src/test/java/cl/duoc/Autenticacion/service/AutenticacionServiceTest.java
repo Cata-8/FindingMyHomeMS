@@ -57,7 +57,7 @@ public class AutenticacionServiceTest {
     @Test
     void registrar_exitoso_nuevoUsuario() {
         // ARRANGE: usuario existe y no tiene auth registrada aún
-        when(usuarioClient.buscarUsuario(1)).thenReturn(usuarioDTO);
+        when(usuarioClient.obtenerUsuario(1)).thenReturn(usuarioDTO);
         when(authRepo.findByIdUsuario(1)).thenReturn(null);
         when(authRepo.save(any(Autenticacion.class))).thenReturn(authEjemplo);
 
@@ -73,7 +73,7 @@ public class AutenticacionServiceTest {
     @Test
     void registrar_retornaExistentesSiYaRegistrado() {
         // ARRANGE: el usuario ya tiene auth registrada
-        when(usuarioClient.buscarUsuario(1)).thenReturn(usuarioDTO);
+        when(usuarioClient.obtenerUsuario(1)).thenReturn(usuarioDTO);
         when(authRepo.findByIdUsuario(1)).thenReturn(authEjemplo);
 
         // ACT
@@ -87,7 +87,7 @@ public class AutenticacionServiceTest {
     @Test
     void registrar_usuarioNoExiste() {
         // ARRANGE: el cliente feign retorna null
-        when(usuarioClient.buscarUsuario(1)).thenReturn(null);
+        when(usuarioClient.obtenerUsuario(1)).thenReturn(null);
 
         // ACT + ASSERT
         RuntimeException ex = assertThrows(RuntimeException.class, () -> {
@@ -100,7 +100,7 @@ public class AutenticacionServiceTest {
     @Test
     void login_exitoso() {
         // ARRANGE
-        when(usuarioClient.buscarUsuario(1)).thenReturn(usuarioDTO);
+        when(usuarioClient.obtenerUsuario(1)).thenReturn(usuarioDTO);
         when(authRepo.findByIdUsuario(1)).thenReturn(authEjemplo);
         when(authRepo.save(any(Autenticacion.class))).thenReturn(authEjemplo);
 
@@ -115,7 +115,7 @@ public class AutenticacionServiceTest {
     @Test
     void login_usuarioNoEncontradoEnUsuarioMS() {
         // ARRANGE: Feign retorna null
-        when(usuarioClient.buscarUsuario(1)).thenReturn(null);
+        when(usuarioClient.obtenerUsuario(1)).thenReturn(null);
 
         // ACT
         String resultado = autenticacionService.login(authDTO);
@@ -127,7 +127,7 @@ public class AutenticacionServiceTest {
     @Test
     void login_usuarioNoTieneAuth() {
         // ARRANGE: existe en UsuarioMS pero no tiene registro de auth
-        when(usuarioClient.buscarUsuario(1)).thenReturn(usuarioDTO);
+        when(usuarioClient.obtenerUsuario(1)).thenReturn(usuarioDTO);
         when(authRepo.findByIdUsuario(1)).thenReturn(null);
 
         // ACT
@@ -141,7 +141,7 @@ public class AutenticacionServiceTest {
     void login_usuarioBloqueado() {
         // ARRANGE: auth existe pero estado es inactivo
         authEjemplo.setEstado("inactivo");
-        when(usuarioClient.buscarUsuario(1)).thenReturn(usuarioDTO);
+        when(usuarioClient.obtenerUsuario(1)).thenReturn(usuarioDTO);
         when(authRepo.findByIdUsuario(1)).thenReturn(authEjemplo);
 
         // ACT

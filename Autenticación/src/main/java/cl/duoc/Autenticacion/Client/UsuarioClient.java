@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import cl.duoc.Autenticacion.dto.UsuarioDTO;
 
-@FeignClient(name = "usuarios-ms")
+@FeignClient(name = "UsuarioMS")
 public interface UsuarioClient {
 
     @GetMapping("/api/v1/usuarios/{id}")
-    UsuarioDTO buscarUsuario(@PathVariable("id") Integer id);
+    UsuarioDTO obtenerUsuario(@PathVariable("id") Integer id);
 }
