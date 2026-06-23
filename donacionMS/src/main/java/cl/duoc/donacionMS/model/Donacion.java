@@ -9,6 +9,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +31,8 @@ public class Donacion {
     private Integer id;
 
     @Column(nullable = false)
+    @NotNull(message = "El monto es obligatorio")
+    @Min(value = 1000, message = "El monto mínimo de donación es $1.000")
     @Schema(description = "Monto donado, solo datos numericos sin puntos ni comas.", examples = {"25000", "10000"})
     private Integer monto;
 
@@ -35,10 +41,13 @@ public class Donacion {
     private Date fecha;
 
     @Column(nullable = false)
+    @NotBlank(message = "El método de pago no puede estar vacío")
     @Schema(description = "Método de pago utilizado para la donación", examples = {"Tarjeta", "Transferencia", "Efectivo"})
     private String metodoDePago;
 
     @Column(name = "usuario_id", nullable = false)
+    @NotNull(message = "El ID de usuario es obligatorio")
+    @Size(max = 3, min = 1)
     @Schema(description = "ID de usuario que realizó la donación, solo se permiten datos numericos", examples = {"5", "2"})
     private Integer idUsuario;
 
