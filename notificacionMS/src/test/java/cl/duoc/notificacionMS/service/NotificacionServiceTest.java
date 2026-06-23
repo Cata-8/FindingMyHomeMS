@@ -92,7 +92,7 @@ public class NotificacionServiceTest {
     }
 
     @Test
-    void guardar_exitoso() {
+    void guardar() {
         // ARRANGE: usuario existe
         when(usuarioClient.obtenUsuario(1)).thenReturn(usuarioDTO);
         when(repo.save(notificacionEjemplo)).thenReturn(notificacionEjemplo);
@@ -122,7 +122,7 @@ public class NotificacionServiceTest {
     }
 
     @Test
-    void obtenerNotificacion_exitoso() {
+    void obtenerNotificacion() {
         // ARRANGE
         when(repo.findById(1)).thenReturn(Optional.of(notificacionEjemplo));
         when(usuarioClient.obtenUsuario(1)).thenReturn(usuarioDTO);

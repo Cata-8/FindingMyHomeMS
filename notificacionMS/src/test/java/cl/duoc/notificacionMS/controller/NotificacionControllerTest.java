@@ -77,7 +77,7 @@ public class NotificacionControllerTest {
     }
 
     @Test
-    void buscar_retorna404CuandoNoExiste() throws Exception {
+    void buscar_retorna404() throws Exception {
         // ARRANGE
         when(service.buscarPorId(99)).thenThrow(new RuntimeException("Notificacion no encontrada"));
 
@@ -100,7 +100,7 @@ public class NotificacionControllerTest {
     }
 
     @Test
-    void detalle_retorna404CuandoNoExiste() throws Exception {
+    void detalle_retorna404() throws Exception {
         // ARRANGE
         when(service.buscarPorId(99)).thenThrow(new RuntimeException("Notificacion no encontrada"));
 
