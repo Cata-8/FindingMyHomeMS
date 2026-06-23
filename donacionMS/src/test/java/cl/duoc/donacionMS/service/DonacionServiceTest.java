@@ -81,7 +81,7 @@ public class DonacionServiceTest {
             donacionService.buscarPorId(99);
         });
 
-        assertEquals("Donación no encontrado", ex.getMessage());
+        assertEquals("Donación no encontrada", ex.getMessage());
     }
 
     @Test
@@ -119,7 +119,7 @@ public class DonacionServiceTest {
             donacionService.eliminar(99);
         });
 
-        assertEquals("Doctor no existe", ex.getMessage());
+        assertEquals("Donacion no existe", ex.getMessage());
 
         // verificamos que deleteById NUNCA fue llamado
         verify(donacionRepository, never()).deleteById(99);
