@@ -115,7 +115,7 @@ public class MensajeServiceTest {
     }
 
     @Test
-    void crearMensaje_exitoso() {
+    void crearMensaje() {
         // ARRANGE
         when(usuarioClient.buscarUsuario(1)).thenReturn(remitenteDTO);
         when(usuarioClient.buscarUsuario(2)).thenReturn(destinatarioDTO);
@@ -146,7 +146,7 @@ public class MensajeServiceTest {
     }
 
     @Test
-    void marcarComoLeido_exitoso() {
+    void marcarComoLeido() {
         // ARRANGE
         when(mensajeRepo.findById(1)).thenReturn(Optional.of(mensajeEjemplo));
         mensajeEjemplo.setLeido(true);
@@ -174,7 +174,7 @@ public class MensajeServiceTest {
     }
 
     @Test
-    void eliminar_exitoso() {
+    void eliminar() {
         // ARRANGE
         when(mensajeRepo.findById(1)).thenReturn(Optional.of(mensajeEjemplo));
 

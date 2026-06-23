@@ -72,7 +72,7 @@ public class MensajeControllerTest {
     }
 
     @Test
-    void buscarPorId_retorna400_cuandoNoExiste() throws Exception {
+    void buscarPorId_retorna400() throws Exception {
         // ARRANGE
         when(mensajeService.buscarPorId(99))
                 .thenThrow(new RuntimeException("Mensaje no encontrado"));
@@ -144,7 +144,7 @@ public class MensajeControllerTest {
     }
  
     @Test
-    void eliminar_retorna400_cuandoNoExiste() throws Exception {
+    void eliminar_retorna400() throws Exception {
         // ARRANGE
         doThrow(new RuntimeException("Mensaje no encontrado")).when(mensajeService).eliminar(99);
  
