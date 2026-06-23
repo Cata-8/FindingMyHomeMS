@@ -49,10 +49,11 @@ public class MensajeControllerTest {
         List<Mensaje> listaFalsa = new ArrayList<>();
         listaFalsa.add(mensajeEjemplo);
         when(mensajeService.listar()).thenReturn(listaFalsa);
-
+ 
         // ACT + ASSERT
         mockMvc.perform(get("/api/v1/mensajes"))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(1))
                 .andExpect(jsonPath("$[0].contenido").value("Hola, quiero adoptar la mascota"))
                 .andExpect(jsonPath("$[0].leido").value(false));
     }
@@ -61,48 +62,52 @@ public class MensajeControllerTest {
     void buscarPorId_retorna200() throws Exception {
         // ARRANGE
         when(mensajeService.buscarPorId(1)).thenReturn(mensajeEjemplo);
-
+ 
         // ACT + ASSERT
         mockMvc.perform(get("/api/v1/mensajes/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.idRemitente").value(1));
+                .andExpect(jsonPath("$.idRemitente").value(1))
+                .andExpect(jsonPath("$.idDestinatario").value(2));
     }
 
     @Test
-    void buscarPorId_retorna400CuandoNoExiste() throws Exception {
+    void buscarPorId_retorna400_cuandoNoExiste() throws Exception {
         // ARRANGE
-        when(mensajeService.buscarPorId(99)).thenThrow(new RuntimeException("Mensaje no encontrado"));
-
+        when(mensajeService.buscarPorId(99))
+                .thenThrow(new RuntimeException("Mensaje no encontrado"));
+ 
         // ACT + ASSERT
         mockMvc.perform(get("/api/v1/mensajes/99"))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest());                                   
     }
 
     @Test
     void crear_retorna200() throws Exception {
         // ARRANGE
         when(mensajeService.crearMensaje(any(MensajeDTO.class))).thenReturn(mensajeEjemplo);
-
+ 
         // ACT + ASSERT
         mockMvc.perform(post("/api/v1/mensajes")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"idRemitente\":1,\"idDestinatario\":2,\"contenido\":\"Hola, quiero adoptar la mascota\"}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.contenido").value("Hola, quiero adoptar la mascota"));
+                .content("{\"idRemitente\":1,\"idDestinatario\":2,\"contenido\":\"Hola, quiero adoptar la mascota\",\"leido\":false}"))
+                .andExpect(status().isOk())                                               // 200
+                .andExpect(jsonPath("$.contenido").value("Hola, quiero adoptar la mascota"))
+                .andExpect(jsonPath("$.idRemitente").value(1))
+                .andExpect(jsonPath("$.idDestinatario").value(2));
     }
 
     @Test
-    void crear_retorna400CuandoUsuarioNoExiste() throws Exception {
+    void crear_retorna400() throws Exception {
         // ARRANGE
         when(mensajeService.crearMensaje(any(MensajeDTO.class)))
                 .thenThrow(new RuntimeException("Usuario no existe"));
-
+ 
         // ACT + ASSERT
         mockMvc.perform(post("/api/v1/mensajes")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"idRemitente\":99,\"idDestinatario\":2,\"contenido\":\"Hola\"}"))
-                .andExpect(status().isBadRequest());
+                .content("{\"idRemitente\":99,\"idDestinatario\":2,\"contenido\":\"Hola\",\"leido\":false}"))
+                .andExpect(status().isBadRequest());                                   
     }
 
     @Test
@@ -110,40 +115,41 @@ public class MensajeControllerTest {
         // ARRANGE
         mensajeEjemplo.setLeido(true);
         when(mensajeService.marcarComoLeido(1)).thenReturn(mensajeEjemplo);
-
+ 
         // ACT + ASSERT
         mockMvc.perform(put("/api/v1/mensajes/1/leer"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.leido").value(true));
     }
-
+ 
     @Test
-    void marcarLeido_retorna400CuandoNoExiste() throws Exception {
+    void marcarLeido_retorna400() throws Exception {
         // ARRANGE
-        when(mensajeService.marcarComoLeido(99)).thenThrow(new RuntimeException("Mensaje no encontrado"));
-
+        when(mensajeService.marcarComoLeido(99))
+                .thenThrow(new RuntimeException("Mensaje no encontrado"));
+ 
         // ACT + ASSERT
         mockMvc.perform(put("/api/v1/mensajes/99/leer"))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest());                                      
     }
 
     @Test
     void eliminar_retorna200() throws Exception {
-        // ARRANGE
+        // ARRANGE: el controller retorna ok("Mensaje eliminado") cuando no hay excepcion
         doNothing().when(mensajeService).eliminar(1);
-
+ 
         // ACT + ASSERT
         mockMvc.perform(delete("/api/v1/mensajes/1"))
                 .andExpect(status().isOk());
     }
-
+ 
     @Test
-    void eliminar_retorna400CuandoNoExiste() throws Exception {
+    void eliminar_retorna400_cuandoNoExiste() throws Exception {
         // ARRANGE
         doThrow(new RuntimeException("Mensaje no encontrado")).when(mensajeService).eliminar(99);
-
+ 
         // ACT + ASSERT
         mockMvc.perform(delete("/api/v1/mensajes/99"))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest());                                      
     }
 }
