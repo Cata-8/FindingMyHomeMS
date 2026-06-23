@@ -13,17 +13,22 @@ public class DataLoader {
     @Bean
     CommandLineRunner initData(AutenticacionRepository authRepository) {
         return args -> {
-            Autenticacion auth1 = new Autenticacion(null, 1, null, "activo");
-            Autenticacion auth2 = new Autenticacion(null, 2, null, "activo");
-            Autenticacion auth3 = new Autenticacion(null, 3, null, "activo");
-            Autenticacion auth4 = new Autenticacion(null, 4, null, "activo");
+            if (authRepository.count() > 0) {
+                System.out.println("No se cargó nada porque ya habían datos");
+            } else {
+                Autenticacion auth1 = new Autenticacion(null, 1, null, "activo");
+                Autenticacion auth2 = new Autenticacion(null, 2, null, "activo");
+                Autenticacion auth3 = new Autenticacion(null, 3, null, "activo");
+                Autenticacion auth4 = new Autenticacion(null, 4, null, "activo");
 
-            authRepository.save(auth1);
-            authRepository.save(auth2);
-            authRepository.save(auth3);
-            authRepository.save(auth4);
+                authRepository.save(auth1);
+                authRepository.save(auth2);
+                authRepository.save(auth3);
+                authRepository.save(auth4);
 
-            System.out.println("Datos de autenticación cargados correctamente");
+                System.out.println("Datos de autenticación cargados correctamente");
+            }
+            
         };
     }
 }
