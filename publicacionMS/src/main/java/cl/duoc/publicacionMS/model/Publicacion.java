@@ -9,7 +9,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,10 +29,14 @@ public class Publicacion {
     @Schema(description = "ID de publicación, solo permite datos numericos", examples = {"1","2"})
     private Integer id;
 
+    @NotBlank(message = "El título no puede estar vacío")
+    @Size(min = 5, max = 100, message = "El título debe tener entre 5 y 100 caracteres")
     @Column(nullable = false)
     @Schema(description = "Título de la publicación")
     private String titulo;
 
+    @NotBlank(message = "La descripción no puede estar vacía")
+    @Size(min = 10, max = 1000, message = "La descripción debe tener entre 10 y 1000 caracteres")
     @Column(nullable = false)
     @Schema(description = "Descripción de la publicación")
     private String descripcion;
@@ -39,10 +45,12 @@ public class Publicacion {
     @Schema(description = "Fecha en la que se realizó la publicación")
     private Date fechaPublicacion;
 
+    @NotBlank(message = "El estado no puede estar vacío")
     @Column(nullable = false)
     @Schema(description = "Estado en el que se encuentra la publicación", examples = {"Activa", "Pausada", "Eliminada"})
     private String estado;
 
+    @NotNull(message = "El ID de mascota es obligatorio")
     @Column(name = "id_mascota",nullable = false)
     @Schema(description = "ID de mascota asociada a la publicación")
     private Integer idMascota;
