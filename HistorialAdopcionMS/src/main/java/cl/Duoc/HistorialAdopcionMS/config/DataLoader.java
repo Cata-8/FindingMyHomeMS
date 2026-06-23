@@ -14,19 +14,22 @@ public class DataLoader {
     CommandLineRunner initData(HistorialRepository repo){
 
          return args -> {
+            if (repo.count() > 0) {
+                System.out.println("No se cargó nada porque ya habían datos");
+            } else {
+                HistorialAdopcion h1 = new HistorialAdopcion();
+                h1.setIdUsuario(1);
+                h1.setIdMascota(2);
 
-            HistorialAdopcion h1 = new HistorialAdopcion();
-            h1.setIdUsuario(1);
-            h1.setIdMascota(2);
+                HistorialAdopcion h2 = new HistorialAdopcion();
+                h2.setIdUsuario(2);
+                h2.setIdMascota(3);
 
-            HistorialAdopcion h2 = new HistorialAdopcion();
-            h2.setIdUsuario(2);
-            h2.setIdMascota(3);
+                repo.save(h1);
+                repo.save(h2);
 
-            repo.save(h1);
-            repo.save(h2);
-
-            System.out.println("Datos cargados");
+                System.out.println("Datos cargados");
+            }
          };
     }
 }
