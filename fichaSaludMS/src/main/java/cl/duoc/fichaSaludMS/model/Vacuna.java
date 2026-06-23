@@ -12,6 +12,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,6 +31,8 @@ public class Vacuna {
     @Schema(description = "ID de la vacuna, solo permite datos numericos y se autoincrementa", example = "1")
     private Integer id;
 
+    @NotBlank(message = "El nombre de la vacuna no puede estar vacío")
+    @Size(min = 2, max = 100, message = "El nombre de la vacuna debe tener entre 2 y 100 caracteres")
     @Column(nullable = false)
     @Schema(description = "Nombre de la vacuna", example = "Antirrábica")
     private String nombre;

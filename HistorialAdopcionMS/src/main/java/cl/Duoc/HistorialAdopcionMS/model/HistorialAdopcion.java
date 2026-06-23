@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,10 +32,12 @@ public class HistorialAdopcion {
     @Schema(description = "Fecha de cuando fue relizada la adopción")
     private LocalDate fechaAdopcion;
     
+    @NotNull(message = "El ID de usuario es obligatorio")
     @Column(nullable = false)
     @Schema(description = "ID de usuario adoptante")
     private Integer idUsuario;
 
+    @NotNull(message = "El ID de mascota es obligatorio")
     @Column(nullable = false)
     @Schema(description = "ID d mascota adoptada")
     private Integer idMascota;
