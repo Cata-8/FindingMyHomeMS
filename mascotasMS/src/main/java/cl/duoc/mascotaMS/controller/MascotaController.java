@@ -87,16 +87,17 @@ public class MascotaController {
                description = "Retorna los datos basicos de una mascota segun su id, este metodo se utiliza para ser llamado desde otros microservicios cuando se necesite los datos de una mascota")
     public ResponseEntity<MascotaDTO> obtenerMascotaDTO(
             @Parameter(description = "ID de la mascota") @PathVariable Integer id) {
-        Mascota mascota = service.buscarPorId(id);
-        if (mascota == null) {
-            return ResponseEntity.notFound().build();
-        }
-        MascotaDTO dto = new MascotaDTO(
-                mascota.getId(),
-                mascota.getNombre(),
-                mascota.getTipo(),
-                mascota.getEstado()
-        );
-        return ResponseEntity.ok(dto);
+        try{
+            Mascota mascota = service.buscarPorId(id);
+            MascotaDTO dto = new MascotaDTO(
+            mascota.getId(),
+            mascota.getNombre(),
+            mascota.getTipo(),
+            mascota.getEstado()
+            );
+            return ResponseEntity.ok(dto);
+        }catch (Exception e) {
+        return ResponseEntity.notFound().build();
+        }   
     }
 }

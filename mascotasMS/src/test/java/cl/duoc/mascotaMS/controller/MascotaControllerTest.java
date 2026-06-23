@@ -60,8 +60,10 @@ public class MascotaControllerTest {
 
         // ACT + ASSERT: simulamos el GET y verificamos la respuesta
         mock.perform(get("/api/v1/mascota"))
-            .andExpect(status().isOk())                              // código HTTP 200
-            .andExpect(jsonPath("$[0].nombre").value("Leo")); 
+            .andExpect(status().isOk())      
+            .andExpect(jsonPath("$[0].id").value(1))                       
+            .andExpect(jsonPath("$[0].nombre").value("Leo"))
+            .andExpect(jsonPath("$[0].estado").value("Disponible"));; 
     }
 
     @Test
@@ -81,7 +83,9 @@ public class MascotaControllerTest {
         when(service.buscarPorId(1)).thenReturn(mascotaEjemplo);
 
         //ACT + ASSERT
-        mock.perform(get("/api/v1/mascota/1")).andExpect(status().isOk());
+        mock.perform(get("/api/v1/mascota/1")).andExpect(status().isOk())
+            .andExpect(jsonPath("$.nombre").value("Leo"))
+            .andExpect(jsonPath("$.tipo").value("Perro"));;
     }
 
     @Test
@@ -108,6 +112,30 @@ public class MascotaControllerTest {
     }
 
     @Test
+    void buscarPorEstado_retorna200ConMascotas() throws Exception {
+        // ARRANGE
+        List<Mascota> listaFalsa = new ArrayList<>();
+        listaFalsa.add(mascotaEjemplo);
+        when(service.buscarPorEstado("Disponible")).thenReturn(listaFalsa);
+ 
+        // ACT + ASSERT
+        mock.perform(get("/api/v1/mascota/estado/Disponible"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].estado").value("Disponible"))
+            .andExpect(jsonPath("$[0].nombre").value("Leo"));
+    }
+
+    @Test
+    void buscarPorEstado_retorna404() throws Exception {
+        // ARRANGE
+        when(service.buscarPorEstado("invalido")).thenThrow(new RuntimeException("Estado no válido"));
+ 
+        // ACT + ASSERT
+        mock.perform(get("/api/v1/mascota/estado/invalido"))
+            .andExpect(status().isNotFound());                               
+    }
+    
+    @Test
     void eliminar_retorna204() throws Exception {
         // ARRANGE: el servicio no hace nada (método void)
         doNothing().when(service).eliminar(1);
@@ -125,6 +153,29 @@ public class MascotaControllerTest {
         // ACT + ASSERT
         mock.perform(delete("/api/v1/mascota/99"))
             .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void obtenerMascotaDTO_retorna200() throws Exception {
+        // ARRANGE: el controller llama buscarPorId y construye el DTO internamente
+        when(service.buscarPorId(1)).thenReturn(mascotaEjemplo);
+ 
+        // ACT + ASSERT
+        mock.perform(get("/api/v1/mascota/dto/1"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id").value(1))
+            .andExpect(jsonPath("$.nombre").value("Leo"))
+            .andExpect(jsonPath("$.tipo").value("Perro"))
+            .andExpect(jsonPath("$.estado").value("Disponible"));
+    }
+ 
+    @Test
+    void obtenerMascotaDTO_retorna404() throws Exception {
+        // ARRANGE: el service lanza excepcion cuando no encuentra la mascota
+        when(service.buscarPorId(99)).thenThrow(new RuntimeException("Mascota no encontrada"));
+        // ACT + ASSERT
+        mock.perform(get("/api/v1/mascota/dto/99"))
+            .andExpect(status().isNotFound());                             
     }
 
 }
