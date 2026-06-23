@@ -3,6 +3,7 @@ package cl.duoc.mascotaMS.service;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -67,6 +68,16 @@ public class MascotaServiceTest {
     }
 
     @Test
+    void listar_retornaListaVacia() {
+        // ARRANGE
+        when(mascotaRepo.findAll()).thenReturn(new ArrayList<>());
+        // ACT
+        List<Mascota> resultado = mascotaService.listar();
+        // ASSERT
+        assertTrue(resultado.isEmpty());
+    }
+
+    @Test
     void buscarPorId_encontrado(){
         // ARRANGE: preparamos la prueba, le decimos que hacer
         Optional<Mascota> optionalMascota = Optional.of(mascotaEjemplo);
@@ -79,6 +90,7 @@ public class MascotaServiceTest {
         //         (valor que deberia tener, origen)
         assertEquals(1, resultado.getId());
         assertEquals("Leo", resultado.getNombre());
+        assertEquals("Disponible", resultado.getEstado());
 
     }
 
@@ -95,6 +107,33 @@ public class MascotaServiceTest {
 
         assertEquals("Mascota no encontrada", exception.getMessage());
 
+    }
+
+    @Test
+    void buscarPorEstado_retornaMascotasDispo() {
+        // ARRANGE
+        List<Mascota> listaFalsa = new ArrayList<>();
+        listaFalsa.add(mascotaEjemplo);
+        when(mascotaRepo.findByEstado("Disponible")).thenReturn(listaFalsa);
+ 
+        // ACT
+        List<Mascota> resultado = mascotaService.buscarPorEstado("Disponible");
+ 
+        // ASSERT
+        assertEquals(1, resultado.size());
+        assertEquals("Disponible", resultado.get(0).getEstado());
+    }
+ 
+    @Test
+    void buscarPorEstado_retornaListaVacia() {
+        // ARRANGE
+        when(mascotaRepo.findByEstado("Adoptado")).thenReturn(new ArrayList<>());
+ 
+        // ACT
+        List<Mascota> resultado = mascotaService.buscarPorEstado("Adoptado");
+ 
+        // ASSERT
+        assertTrue(resultado.isEmpty());
     }
 
     @Test
