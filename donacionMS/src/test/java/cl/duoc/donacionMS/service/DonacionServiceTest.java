@@ -15,6 +15,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import cl.duoc.donacionMS.client.UsuarioClient;
+import cl.duoc.donacionMS.dto.DonacionDetalleDTO;
+import cl.duoc.donacionMS.dto.UsuarioDTO;
 import cl.duoc.donacionMS.model.Donacion;
 import cl.duoc.donacionMS.repository.DonacionRepository;
 
@@ -24,59 +27,63 @@ public class DonacionServiceTest {
     @Mock
     private DonacionRepository donacionRepository;
 
+    @Mock
+    private UsuarioClient usuarioClient;
+
     @InjectMocks
     private DonacionService donacionService;
 
     private Donacion donacionEjemplo;
+    private UsuarioDTO usuarioDTO;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         donacionEjemplo = new Donacion();
         donacionEjemplo.setId(1);
         donacionEjemplo.setMonto(20000);
         donacionEjemplo.setFecha(new Date());
         donacionEjemplo.setMetodoDePago("Tarjeta");
         donacionEjemplo.setIdUsuario(2);
+
+        usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setIdUsuario(2);
     }
 
     @Test
-    void listar_retornaListaConDonaciones(){
-        // ARRANGE: creamos la lista manualmente
+    void listar_retornaListaConDonaciones() {
+        // ARRANGE
         List<Donacion> listaFalsa = new ArrayList<>();
         listaFalsa.add(donacionEjemplo);
-
-        // le decimos al repositorio falso que devuelva esa lista cuando se llame findAll()
         when(donacionRepository.findAll()).thenReturn(listaFalsa);
 
-        // ACT: llamamos al método real del servicio
+        // ACT
         List<Donacion> resultado = donacionService.listar();
 
-        // ASSERT: verificamos el resultado
+        // ASSERT
         assertEquals(1, resultado.size());
-        assertEquals(1, resultado.get(0).getId());
+        assertEquals(20000, resultado.get(0).getMonto());
+        assertEquals("Tarjeta", resultado.get(0).getMetodoDePago());
     }
 
     @Test
     void buscarPorId_encontrado() {
-        // ARRANGE: el repositorio devuelve un Optional con el doctor
-        Optional<Donacion> optionalDonacion = Optional.of(donacionEjemplo);
-        when(donacionRepository.findById(1)).thenReturn(optionalDonacion);
+        // ARRANGE
+        when(donacionRepository.findById(1)).thenReturn(Optional.of(donacionEjemplo));
 
-        // ACT: llamamos al método real
+        // ACT
         Donacion resultado = donacionService.buscarPorId(1);
 
-        // ASSERT: verificamos que es el doctor correcto
+        // ASSERT
         assertEquals(1, resultado.getId());
-        assertEquals(1, resultado.getId());
+        assertEquals(20000, resultado.getMonto());
     }
 
     @Test
     void buscarPorId_noEncontrado() {
-        // ARRANGE: el repositorio devuelve un Optional vacío
-        Optional<Donacion> optionalVacio = Optional.empty();
-        when(donacionRepository.findById(99)).thenReturn(optionalVacio);
+        // ARRANGE
+        when(donacionRepository.findById(99)).thenReturn(Optional.empty());
 
-        // ACT + ASSERT: verificamos que lanza la excepción correcta
+        // ACT + ASSERT
         RuntimeException ex = assertThrows(RuntimeException.class, () -> {
             donacionService.buscarPorId(99);
         });
@@ -85,44 +92,71 @@ public class DonacionServiceTest {
     }
 
     @Test
-    void guardar_retornaDonacionGuardado() {
-        // ARRANGE: el repositorio devuelve el doctor al guardarlo
+    void guardar_exitoso() {
+        // ARRANGE: usuario existe
+        when(usuarioClient.obtenerUsuario(2)).thenReturn(usuarioDTO);
         when(donacionRepository.save(donacionEjemplo)).thenReturn(donacionEjemplo);
 
         // ACT
         Donacion resultado = donacionService.guardar(donacionEjemplo);
 
-            // ASSERT
+        // ASSERT
         assertEquals(1, resultado.getId());
-        verify(donacionRepository, times(1)).save(donacionEjemplo); // verificamos que save fue llamado
+        assertEquals(20000, resultado.getMonto());
+        verify(donacionRepository, times(1)).save(donacionEjemplo);
     }
 
     @Test
+    void guardar_usuarioNoExiste() {
+        // ARRANGE: el cliente retorna null
+        when(usuarioClient.obtenerUsuario(2)).thenReturn(null);
+
+        // ACT + ASSERT
+        RuntimeException ex = assertThrows(RuntimeException.class, () -> {
+            donacionService.guardar(donacionEjemplo);
+        });
+
+        assertEquals("Usuario no existe", ex.getMessage());
+        verify(donacionRepository, never()).save(any(Donacion.class));
+    }
+
+    @Test
+    void obtenerDetalle_exitoso() {
+        // ARRANGE
+        when(donacionRepository.findById(1)).thenReturn(Optional.of(donacionEjemplo));
+        when(usuarioClient.obtenerUsuario(2)).thenReturn(usuarioDTO);
+
+        // ACT
+        DonacionDetalleDTO resultado = donacionService.obtenerDetalle(1);
+
+        // ASSERT
+        assertNotNull(resultado);
+        assertEquals(1, resultado.getId());
+        assertEquals(2, resultado.getIdUsuario());
+    }
+
+
+    @Test
     void eliminar_exitoso() {
-        // ARRANGE: el doctor existe
+        // ARRANGE
         when(donacionRepository.existsById(1)).thenReturn(true);
 
-        // ACT + ASSERT: no debe lanzar excepción
+        // ACT + ASSERT
         assertDoesNotThrow(() -> donacionService.eliminar(1));
-
-        // verificamos que deleteById fue llamado exactamente una vez
         verify(donacionRepository, times(1)).deleteById(1);
     }
 
     @Test
     void eliminar_noExiste() {
-        // ARRANGE: el doctor no existe
+        // ARRANGE
         when(donacionRepository.existsById(99)).thenReturn(false);
 
-        // ACT + ASSERT: debe lanzar excepción
+        // ACT + ASSERT
         RuntimeException ex = assertThrows(RuntimeException.class, () -> {
             donacionService.eliminar(99);
         });
 
         assertEquals("Donacion no existe", ex.getMessage());
-
-        // verificamos que deleteById NUNCA fue llamado
         verify(donacionRepository, never()).deleteById(99);
     }
-
 }
