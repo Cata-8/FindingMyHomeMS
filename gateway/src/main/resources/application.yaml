@@ -59,4 +59,3 @@ spring:
         url: lb://SolicitudMS
         predicates:
           - Path=/api/v1/solicitudes/**
-

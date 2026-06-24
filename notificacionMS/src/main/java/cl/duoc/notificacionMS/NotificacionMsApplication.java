@@ -10,6 +10,8 @@ public class NotificacionMsApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(NotificacionMsApplication.class, args);
+
+		System.out.println("www");
 	}
 
 }
