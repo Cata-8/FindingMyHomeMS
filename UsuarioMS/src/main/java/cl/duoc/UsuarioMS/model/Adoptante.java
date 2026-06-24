@@ -9,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ public class Adoptante {
     @Schema(description = "Identificador único del usuario")
     private Integer idUsuario;
 
+    @NotNull(message = "El usuario asociado es obligatorio")
     @OneToOne
     @MapsId
     @JoinColumn(name = "id_usuario")
