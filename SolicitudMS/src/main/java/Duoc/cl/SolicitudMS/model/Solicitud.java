@@ -10,6 +10,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,10 +30,13 @@ public class Solicitud {
     @Schema(description = "ID unico de solicitud, solo permite datos numericos, se autoincrementa", examples = {"1","2"})
     private Integer idSolicitud;
 
+    @NotBlank(message = "El mensaje no puede estar vacío")
+    @Size(min = 10, max = 500, message = "El mensaje debe tener entre 10 y 500 caracteres")
     @Column(nullable = false)
     @Schema(description = "Mensaje del solicitante hacia el refugio indicando porque quiere realizar la solicitud de adopción", example = "quiero adoptar a Rocky porque está bonito")
     private String mensaje;
 
+    @NotBlank(message = "El estado no puede estar vacío")
     @Column(nullable = false)
     @Schema(description = "Estado de la solicitud", examples = {"Aceptada", "En proceso", "Denegada"})
     private String estado;
@@ -44,10 +50,12 @@ public class Solicitud {
         this.fechaSolicitud = LocalDateTime.now();
     }
 
+    @NotNull(message = "El ID de mascota es obligatorio")
     @Column(nullable = false)
     @Schema(description = "ID de mascota relacionada a la solicitud")
     private Integer idMascota;
 
+    @NotNull(message = "El ID de usuario adoptante es obligatorio")
     @Column(nullable = false)
     @Schema(description = "ID de usuario adoptante que hace la solicitud")
     private Integer idUsuarioAdoptante;

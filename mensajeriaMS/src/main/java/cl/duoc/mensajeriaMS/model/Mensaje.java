@@ -10,6 +10,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,14 +30,18 @@ public class Mensaje {
     @Schema(description = "ID del mensaje, se autoincrementa y solo permite datos numericos", examples = {"1","20"})
     private Integer id;
 
+    @NotNull(message = "El ID del remitente es obligatorio")
     @Column(nullable = false)
     @Schema(description = "ID del remitente")
     private Integer idRemitente;
 
+    @NotNull(message = "El ID del destinatario es obligatorio")
     @Column(nullable = false)
     @Schema(description = "ID del destinatario")
     private Integer idDestinatario;
 
+    @NotBlank(message = "El contenido del mensaje no puede estar vacío")
+    @Size(min = 1, max = 1000, message = "El contenido debe tener entre 1 y 1000 caracteres")
     @Column(nullable = false)
     @Schema(description = "Contenido del mensaje")
     private String contenido;

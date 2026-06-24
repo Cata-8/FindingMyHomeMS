@@ -9,6 +9,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +30,8 @@ public class Autenticacion {
     private Integer idAuth;
 
     @Column(nullable = false, unique = true)
+    @NotNull(message = "El ID de usuario es obligatorio")
+    @Size(max = 3, min = 1)
     @Schema(description = "Identificador del usuario asociado", examples = {"1", "2"})
     private Integer idUsuario;
 
@@ -34,6 +39,8 @@ public class Autenticacion {
     private LocalDateTime ultimoLogin;
 
     @Column(nullable = false)
+    @NotBlank(message = "El estado no puede estar vacío")
+    @Size(max = 8, min = 3)
     @Schema(description = "Estado de la autenticación", examples = {"Activo", "Inactivo"})
     private String estado;
 }
